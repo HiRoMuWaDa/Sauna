@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>ラクラクサウナ</title>
+<link rel="stylesheet" href="../static/css/index.css" th:href="@{/css/index.css}">
+</head>
+<body>
+<section class="hero">
+  <div class="video-box overlay">
+    <video class="video" muted autoplay loop playsinline>
+      <source src="../static/video/sauna.mp4" th:src="@{video/sauna.mp4}" loop autoplay muted>
+    </video>
+  </div>
+  
+  <div class="text-box headline">
+    <h1>ラクスサウナ</h1><br>
+    <div class="cp_ipselect cp_sl02">
+     <FORM NAME="form1">
+     <SELECT required NAME="select1" onChange="if(document.form1.select1.value){location.href=document.form1.select1.value;}">
+	<option disabled selected value>Please select</option>
+	<option value="/rakurakusauna/research">サウナSearch</option>
+	<option value="/rakurakusauna/shop">サウナShop</option>
+</select>
+</FORM>
+</div>
+  </div>
+  </section>
+ 
+
+
+</body>
+</html>

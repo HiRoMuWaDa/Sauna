@@ -1,0 +1,23 @@
+DROP TABLE IF EXISTS items;
+CREATE TABLE items(
+id serial primary key,
+name text not null,
+description text not null,
+price_s integer not null,
+price_m integer not null,
+price_l integer not null,
+image_path text not null,
+deleted boolean default false not null
+);
+INSERT INTO items ( name , description , price_s , price_m , price_l , image_path )
+values ('サウナタオル白' , '吸水・速乾性に優れているサウナタオルです' , 1000 , 2000 , 3000 , 'i1.jpg'),
+('サウナタオル青' , '吸水・速乾性に優れているサウナタオルです' , 1000 , 2000 , 3000 , 'i2.jpg'),
+('サウナハット青' , '熱から髪を守るですサウナハットです' , 1000 , 2000 , 3000 , 'i3.jpg'),
+('サウナハット緑' , '熱から髪を守るですサウナハットです' , 1000 , 2000 , 3000 , 'i4.jpg'),
+('サウナマット' , '吸収性に優れているサウナマットです' , 1000 , 2000 , 3000 , 'i5.jpg'),
+('靴下白' , 'ラクスサウナオリジナルの靴下です' , 500 , 800 , 1000 , 'i6.jpg'),
+('ジャケット青' , '断熱性に優れたジャケットです' , 2000 , 2500 , 3000 , 'i7.jpg'),
+('Tシャツ黒' , 'オシャレなオリジナルTシャツです' , 1000 , 1500 , 2000 , 'i8.jpg'),
+('パーカー黒' , 'オシャレなオリジナルパーカーです' , 2000 , 2500 , 3000 , 'i9.jpg'),
+('パーカー白' , 'オシャレなオリジナルパーカーです' , 2000 , 2500 , 3000 , 'i10.jpg'),
+('パーカー黄' , 'オシャレなオリジナルパーカーです' , 2000 , 2500 , 3000 , 'i11.jpg');

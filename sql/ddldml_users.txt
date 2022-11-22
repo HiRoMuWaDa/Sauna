@@ -1,0 +1,17 @@
+-- ユーザー
+drop table if exists users cascade;
+
+create table users (
+ id serial primary key
+ , name varchar(100) not null
+ , email varchar(100) not null unique
+ , password text not null
+ , zipcode varchar(8) not null
+ , address varchar(200) not null
+ , telephone varchar(15) not null
+ , point Integer not null default 0
+) ;
+
+
+--ユーザー登録(pass:morimori)
+insert into users(name, email, password, zipcode, address, telephone, point) values('テストユーザ', 'test@test.co.jp', 'test','1111111', 'テスト住所', 'テスト電話番号', 0);
