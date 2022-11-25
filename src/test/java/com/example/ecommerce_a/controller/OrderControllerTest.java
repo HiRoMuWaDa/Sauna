@@ -60,22 +60,7 @@ class OrderControllerTest {
 		    void setUp() throws Exception {
 		        mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
 		    }
-//		    
-//		    @DisplayName("テスト用ログイン")
-//		  
-//		    @Test
-//		    
-//		    @DatabaseSetup("/test_login") // CVSのデータ保管場所
-//		    void OrderTestLogin() throws Exception {
-//		        MvcResult mvcResult = mockMvc.perform(post("/shop/show_order_history")
-//		        	
-//                        .param("email", "test@test.co.jp")
-//                        .param("password", "test"))
-//		                .andExpect(view().name("email_submit"))
-//		                .andReturn();
-//
-//		       
-//		    }
+
 		   
 		    
 		    @DisplayName("注文履歴確認画面")
@@ -84,10 +69,12 @@ class OrderControllerTest {
 		
 		    @ExpectedDatabase(value = "/show_order_history", assertionMode = DatabaseAssertionMode.NON_STRICT)
 		    @Test
+//		@DatabaseSetup("/test_login")
 	    @DatabaseSetup("/test_order")
+		    
 		    void insert_1() throws Exception {
 		    	MockHttpSession session = SessionUtil.createUserIdAndUserSession();
-				MvcResult mvcResult = mockMvc.perform(get("/shop/show_order_history")
+				MvcResult mvcResult = mockMvc.perform(get("/rakurakusauna/shop/show_order_history")//元のURL
 						.session(session)//セッションに入る
 						).andExpect(view().name("order_history"))//遷移先のHTML
 		    			 .andReturn();
@@ -104,8 +91,7 @@ class OrderControllerTest {
 			    	  
 			 
 		    	  }
-		    	
-		    	 
+		    		
 		    	  
 //		    	  System.out.println(item);
 //		    	  assertEquals("orderHistory",orderHistory);
