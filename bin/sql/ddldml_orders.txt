@@ -1,0 +1,32 @@
+DROP TABLE IF EXISTS orders;
+
+CREATE TABLE orders(
+id serial primary key,
+user_id integer ,
+status integer not null default 0,
+total_price integer not null default 0,
+order_date date ,
+destination_name varchar(100) ,
+destination_email varchar(100) ,
+destination_zipcode varchar(8) ,
+destination_address varchar(100) ,
+destination_tel varchar(15) ,
+delivery_time timestamp ,
+payment_method integer 
+);
+
+
+--使わない
+--INSERT INTO orders ( user_id , status , total_price , order_date , destination_name , destination_email , destination_zipcode , destination_address , destination_tel , delivery_time , payment_method)
+
+--結合確認用SQL
+INSERT INTO orders ( user_id , status , total_price ) VALUES (1,0,0);
+
+
+--結合確認用SQL
+INSERT INTO orders ( user_id , status , total_price ,order_date ,destination_name ,destination_email ,destination_zipcode ,destination_address ,destination_tel ,delivery_time ,payment_method ) 
+VALUES (1,1,1000000,'2021-11-21','ふるもとまさゆき','furumoto@rakus.co.jp','191-0042','東京都日野市程久保1-23-37','090-3531-7566','2021-11-29 18:00:00',2);
+
+INSERT INTO order_items ( item_id , order_id , quantity , size )
+values
+(4 , 5 , 2 ,'M');

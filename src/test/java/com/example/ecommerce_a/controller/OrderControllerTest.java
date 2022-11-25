@@ -82,12 +82,12 @@ class OrderControllerTest {
 		  
 		    //@ExpectedDatabase()→処理が終わった時のテーブルの状態をCSVに（期待値をCSVに記載））DatabaseAssertionMode→書かれているCSVのみ判定
 		
-		    @ExpectedDatabase(value = "/shop/show_order_history", assertionMode = DatabaseAssertionMode.NON_STRICT)
+		    @ExpectedDatabase(value = "/show_order_history", assertionMode = DatabaseAssertionMode.NON_STRICT)
 		    @Test
 	    @DatabaseSetup("/test_order")
 		    void insert_1() throws Exception {
 		    	MockHttpSession session = SessionUtil.createUserIdAndUserSession();
-				MvcResult mvcResult = mockMvc.perform(get("/rakurakusauna/shop/show_order_history")
+				MvcResult mvcResult = mockMvc.perform(get("/shop/show_order_history")
 						.session(session)//セッションに入る
 						).andExpect(view().name("order_history"))//遷移先のHTML
 		    			 .andReturn();

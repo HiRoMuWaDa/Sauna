@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>注文履歴</title>
+    <link href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet" />
+    <link href="../static/css/sauna-shop.css" th:href="@{/css/sauna-shop.css}" rel="stylesheet" />
+</head>
+<body>
+ <div class="container">
+ 	<div th:insert="fragment_part :: frag_header"></div>
+
+      <!-- table -->
+      <div class="row">
+        <div
+          class="
+            table-responsive
+            col-lg-offset-1
+            col-lg-10
+            col-md-offset-1
+            col-md-10
+            col-sm-10
+            col-xs-12
+          "
+        >
+          <h3 class="text-center">注文履歴</h3>
+          <div th:if="${zeroMessage}" class="text-center"><br>
+          <span th:text="${zeroMessage}"></span>
+          
+          
+          </div>
+          
+          <div th:unless="${zeroMessage}">
+          <table class="table table-striped item-list-table">
+            <tbody>
+              <tr>
+                <th>
+                 注文日
+                </th>
+                <th colspan="4">
+                 詳細 
+                </th>
+              </tr>
+			　　<tr th:each="order:${orderHistory}">
+          		<td>
+          			<div class="center text-center">
+          			<span th:text="${order.orderDate}"></span></div>
+          			
+          		</td>
+          		<td colspan="2">
+	                  <div class="center text-center">
+	                    <img
+	                      src="../static/img_pizza/1.jpg"
+	                      th:src="@{'/img_sauna/'+${order.orderItemList[0].item.imagePath}}"
+	                      class="img-responsive img-rounded item-img-center"
+	                      width="100"
+	                      height="300"
+	                    />
+	                  </div>
+                 </td>
+          		<td colspan="2">  
+	                    <label><span class="item-name" th:text="${order.orderItemList[0].item.name}">じゃがバターベーコン</span></label>
+	                    &nbsp;等&nbsp;計<span th:text="${order.orderItemList.size}">○</span>点<br><br>
+<!-- 	              		注文状況：<span th:if="${order.status ==T(com.example.ecommerce_a.OrderStatus).}"></span> -->
+						<th:block th:switch="${order.status}">
+<!-- 	                  	<span th:text="${}"></span> -->
+	                  	合計金額：
+	                  	<span th:text="${#numbers.formatInteger(order.totalPrice,1,'COMMA')}+円"></span><br>
+	                  	注文状況：
+	                  	<span th:case=1 th:text="お支払い前"></span>
+	                  	<span th:case=2 th:text="ご入金済"></span>
+	                  	<span th:case=3 th:text="ご発送済"></span>
+	                  	<span th:case=4 th:text="お届け完了"></span>
+	                  	</th:block><br>
+	                  	
+                </td>
+	            </tbody>
+	          </table>
+	          </div>
+	          
+	          <br>
+	          <div class="row">
+		       <div class="
+			        col-sm-offset-4 col-sm-4
+			        col-xs-offset-3 col-xs-6
+			    	">
+		          <div class="form-group">
+		           <form action="item_list.html" th:action="@{/shop}">
+		              <input class="form-control btn btn-warning btn-block"
+		                type="submit"
+		                value="お買い物を続ける"
+		              />
+		            </form>
+		          </div>
+		        </div>
+		      </div>
+	          
+      </div>
+	</div>
+ </div>
+<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

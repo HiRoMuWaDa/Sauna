@@ -1,0 +1,9 @@
+drop table if exists options cascade;
+
+create table options (
+  id integer primary key,
+  name text not null,
+  price integer not null);
+  
+insert into options values(1, 'ワッペン', 300);
+insert into options values(2, '名前の刺繍', 300);
