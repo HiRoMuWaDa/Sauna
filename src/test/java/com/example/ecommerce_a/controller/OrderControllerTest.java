@@ -67,14 +67,14 @@ class OrderControllerTest {
 		  
 		    //@ExpectedDatabase()→処理が終わった時のテーブルの状態をCSVに（期待値をCSVに記載））DatabaseAssertionMode→書かれているCSVのみ判定
 		
-		    @ExpectedDatabase(value = "/show_order_history", assertionMode = DatabaseAssertionMode.NON_STRICT)
+//		    @ExpectedDatabase(value = "/shop/show_order_history", assertionMode = DatabaseAssertionMode.NON_STRICT)
 		    @Test
-//		@DatabaseSetup("/test_login")
+	@DatabaseSetup("/test_login")
 	    @DatabaseSetup("/test_order")
 		    
 		    void insert_1() throws Exception {
 		    	MockHttpSession session = SessionUtil.createUserIdAndUserSession();
-				MvcResult mvcResult = mockMvc.perform(get("/rakurakusauna/shop/show_order_history")//元のURL
+				MvcResult mvcResult = mockMvc.perform(get("/shop/show_order_history")//元のURL
 						.session(session)//セッションに入る
 						).andExpect(view().name("order_history"))//遷移先のHTML
 		    			 .andReturn();
@@ -86,7 +86,7 @@ class OrderControllerTest {
 			    	  List<OrderItem> orderItemList =  order.getOrderItemList();
 			    	  
 			    	  OrderItem orderItem = orderItemList.get(0);
-			    	  assertEquals(5, orderItem.getItemId(), "idが一致していない");
+			    	  assertEquals(1, orderItem.getItemId(), "idが一致していない");
 			    	 
 			    	  
 			 

@@ -1,2 +1,2 @@
-id,name,email,adress,telephone
-1,テストユーザ,test@test.co.jp,テスト住所,03-1111-1111
+id,name,email,password,address,zipcode,telephone
+1,テストユーザ,coffeeshop.test@gmail.com,abc,テスト住所,1111111,テスト電話番号
