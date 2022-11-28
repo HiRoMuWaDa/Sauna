@@ -3,6 +3,7 @@ package com.example.ecommerce_a.controller;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -40,115 +41,92 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 //@DbUnitConfiguration(dataSetLoader = XlsDataSetLoader.class)
 @DbUnitConfiguration(dataSetLoader = CsvDataSetLoader.class)
-@TestExecutionListeners({
-      DependencyInjectionTestExecutionListener.class, // このテストクラスでDIを使えるように指定
-      TransactionDbUnitTestExecutionListener.class // @DatabaseSetupや@ExpectedDatabaseなどを使えるように指定
+@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, // このテストクラスでDIを使えるように指定
+		TransactionDbUnitTestExecutionListener.class // @DatabaseSetupや@ExpectedDatabaseなどを使えるように指定
 })
 
 class OrderControllerTest {
-	
-	
 
-			   @Autowired
-		    private WebApplicationContext wac;
+	@Autowired
+	private WebApplicationContext wac;
 
-		    private MockMvc mockMvc;
+	private MockMvc mockMvc;
 
-		    @BeforeAll
-		    static void setUpBeforeClass() throws Exception {
-		    }
+	@BeforeAll
+	static void setUpBeforeClass() throws Exception {
+	}
 
-		    @AfterAll
-		    static void tearDownAfterClass() throws Exception {
-		    }
+	@AfterAll
+	static void tearDownAfterClass() throws Exception {
+	}
 
-		    @BeforeEach
-		    void setUp() throws Exception {
-		        mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
-		    }
+	@BeforeEach
+	void setUp() throws Exception {
+		mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+	}
 
-		   
-		    
-		    @DisplayName("注文履歴確認画面")
-		  
-		    //@ExpectedDatabase()→処理が終わった時のテーブルの状態をCSVに（期待値をCSVに記載））DatabaseAssertionMode→書かれているCSVのみ判定
-		
+	@DisplayName("注文履歴確認画面")
+
+	// @ExpectedDatabase()→処理が終わった時のテーブルの状態をCSVに（期待値をCSVに記載））DatabaseAssertionMode→書かれているCSVのみ判定
+
 //		    @ExpectedDatabase(value = "/shop/show_order_history", assertionMode = DatabaseAssertionMode.NON_STRICT)
-		    @Test
-//	@DatabaseSetup("/test_login")
-//	    @DatabaseSetup("/test_order")
-		    
-		    void insert_1() throws Exception {
-		    	MockHttpSession session = SessionUtil.createUserIdAndUserSession();
-				MvcResult mvcResult = mockMvc.perform(get("/shop/show_order_history")//元のURL
-						.session(session)//セッションに入る
-						).andExpect(view().name("order_history"))//遷移先のHTML
-		    			 .andReturn();
-		    	  ModelAndView mav = mvcResult.getModelAndView();
-		    
-		    	  @SuppressWarnings(value = "unchecked")
-	    	  List<Order> orderHistory = (List<Order>) mav.getModel().get("orderHistory");
-		    	  for (Order order : orderHistory) {
-			    	  List<OrderItem> orderItemList =  order.getOrderItemList();
-			    	  
-			    	  OrderItem orderItem = orderItemList.get(0);
-			    	  assertEquals(1, orderItem.getItemId(), "idが一致していない");
-			    	 
-			    	  
-			 
-		    	  }
-		    		
-		    	  
+	@Test
+	
+	    @DatabaseSetup("/test_order")
+
+	void insert_1() throws Exception {
+		MockHttpSession session = SessionUtil.createUserIdAndUserSession();
+		MvcResult mvcResult = mockMvc.perform(get("/shop/show_order_history")// 元のURL
+				.session(session)// セッションに入る
+		).andExpect(view().name("order_history"))// 遷移先のHTML
+				.andReturn();
+		ModelAndView mav = mvcResult.getModelAndView();
+
+		@SuppressWarnings(value = "unchecked")
+		List<Order> orderHistory = (List<Order>) mav.getModel().get("orderHistory");
+		for (Order order : orderHistory) {
+			List<OrderItem> orderItemList = order.getOrderItemList();
+
+			OrderItem orderItem = orderItemList.get(0);
+			assertEquals(1, orderItem.getItemId(), "idが一致していない");
+
+		}
+		
+
 //		    	  System.out.println(item);
 //		    	  assertEquals("orderHistory",orderHistory);
-		    	  
-		    }
-		    @DisplayName("注文完了画面")
-		    void test2() throws Exception{
-		    	
-		    	
-		    }
-		    @ExpectedDatabase(value = "/test_orderU", assertionMode = DatabaseAssertionMode.NON_STRICT)
-		    @Test
-		    @DisplayName("注文確認画面")
-		    void test3() throws Exception{
-		    
-			    	MockHttpSession session = SessionUtil.createShoppingCartIdAｄItemSession();//ログイン処理
-					MvcResult mvcResult = mockMvc.perform(get("/shop/orderConfirm")//元のURL
-							.session(session)//セッションに入る
-							
-							
-							).andExpect(view().name("order_confirm_pointUsable"))//遷移先のHTML
-			    			 .andReturn();
-			    	  ModelAndView mav = mvcResult.getModelAndView();
-			    	  @SuppressWarnings(value = "unchecked")
-			    	  List<OrderItem> orderItemList  = (List<OrderItem>) mav.getModel().get("shoppingCart");
-			    	  System.out.println(orderItemList );
-			    	  System.out.println(session);
 
-			          MockHttpSession mockSession = (MockHttpSession) mvcResult.getRequest().getSession();
-			          Integer name = (Integer) mockSession.getAttribute("サウナタオル白");
-			          
-			    	  
-//			    	 SessionUtil
-			    	  
-		    	  assertEquals("サウナタオル白",name,"idが一致していない");
-			    	  
-		    	
-		    }
-		    
-		              
-		    }
-		    
-		    
+	}
 
+	@DisplayName("注文完了画面")
+	void test2() throws Exception {
 
+	}
 
+	@ExpectedDatabase(value = "/test_orderU", assertionMode = DatabaseAssertionMode.NON_STRICT)
+	@Test
+	@DisplayName("注文確認画面")
+	void test3() throws Exception {
 
-  
+		MockHttpSession session = SessionUtil.createShoppingCartIdAｄItemSession();// ログイン処理
+		MvcResult mvcResult = mockMvc.perform(get("/shop/orderConfirm")// 元のURL
+				.session(session)// セッションに入る
 
+		).andExpect(view().name("order_confirm_pointUsable"))// 遷移先のHTML
+				.andReturn();
+
+		MockHttpSession mockSession = (MockHttpSession) mvcResult.getRequest().getSession();
+		Order order = (Order) mockSession.getAttribute("usablePointList");
+		
+//		@SuppressWarnings(value = "unchecked")
+//		List<Integer> usablePointList = (List<Integer>) mav.getModel().get("usablePointList");
+		
+
+//		System.out.println("order = " + order);
+		
+
+	}
 	
 	
 
-
-
+}
