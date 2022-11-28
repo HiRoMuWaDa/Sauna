@@ -28,5 +28,7 @@ public class SignUpApiController {
 		map.put("duplicateMessage", duplicateMessage);
 		return map;
 	}
+	
+//	APIテストとして調べる　Sysoutのチェックは不要
 
 }

@@ -49,7 +49,7 @@ public class LoginController {
 	@RequestMapping("/login-result")
 	public String login(LoginForm form, Model model) {
 		User user = loginService.login(form.getEmail(), form.getPassword());
-
+		
 		if (user == null) {
 			model.addAttribute("errorMessage", "メールアドレスまたはパスワードが不正です。");
 			return toLogin();
@@ -58,7 +58,6 @@ public class LoginController {
 		session.setAttribute("user", user);
 		session.setAttribute("name", user.getName()+"さんこんにちは！");
 		System.out.println(user);
-		session.setAttribute("name", user.getName() + "さんこんにちは！");
 
 		// logIn前にセッションに入れていたカートの内容をinsert処理したい。
 		// ユーザーのセッションからカートの中身を持ってくる
