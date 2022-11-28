@@ -1,12 +1,10 @@
 package com.example.ecommerce_a.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.servlet.ServletContext;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -26,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.ecommerce_a.domain.Order;
 import com.example.ecommerce_a.domain.OrderItem;
+import com.example.ecommerce_a.form.OrderConfirmForm;
 import com.example.ecommerce_a.util.CsvDataSetLoader;
 import com.example.ecommerce_a.util.SessionUtil;
 import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener;
@@ -33,10 +32,6 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
-
-import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 //@DbUnitConfiguration(dataSetLoader = XlsDataSetLoader.class)
@@ -92,11 +87,13 @@ class OrderControllerTest {
 
 		}
 		
+		
 
 //		    	  System.out.println(item);
 //		    	  assertEquals("orderHistory",orderHistory);
 
 	}
+	
 
 	@DisplayName("注文完了画面")
 	void test2() throws Exception {
@@ -114,9 +111,23 @@ class OrderControllerTest {
 
 		).andExpect(view().name("order_confirm_pointUsable"))// 遷移先のHTML
 				.andReturn();
+		
+		//ポイント使用
+		 OrderConfirmForm pointform=new OrderConfirmForm();
+		 
 
 		MockHttpSession mockSession = (MockHttpSession) mvcResult.getRequest().getSession();
-		Order order = (Order) mockSession.getAttribute("usablePointList");
+		List<Integer> usablePointList = (List<Integer>) mav.getModel().get("usablePointList");
+		for (Integer pointList :usablePointList ) {
+			List<Integer> orderItemList = order.getOrderItemList();
+			
+
+			OrderItem orderItem = orderItemList.get(0);
+			assertEquals(1, orderItem.getItemId(), "idが一致していない");
+
+		}
+		
+	
 		
 //		@SuppressWarnings(value = "unchecked")
 //		List<Integer> usablePointList = (List<Integer>) mav.getModel().get("usablePointList");
