@@ -68,16 +68,17 @@ public class SessionUtil {
 		Item item = new Item();
 		item.setId(1);
 		item.setName("サウナタオル白");
-		item.setPriceS(1000);
+		item.setPriceM(1000);
 		orderItem.setItemId(1);
-		orderItem.setQuantity(10);
-		orderItem.setSize('S');
+		orderItem.setQuantity(5);
+		orderItem.setSize('M');
 		orderItem.setItem(item);
 		orderItemList.add(orderItem);
 		List<OrderOption> orderOptionList = new ArrayList<>();
 		orderItem.setOrderOptionList(orderOptionList);
 		sessionMap.put("shoppingCart", order);
 		return createMockHttpSession(sessionMap);
+		
 	}
 
 	private static MockHttpSession createMockHttpSession(Map<String, Object> sessions) {
@@ -86,5 +87,6 @@ public class SessionUtil {
 			mockHttpSession.setAttribute(session.getKey(), session.getValue());
 		}
 		return mockHttpSession;
+		
 	}
 }

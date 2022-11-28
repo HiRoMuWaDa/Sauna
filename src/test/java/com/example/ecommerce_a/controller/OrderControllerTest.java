@@ -5,6 +5,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.List;
 
+import javax.servlet.ServletContext;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,6 +46,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 })
 
 class OrderControllerTest {
+	
+	
 
 			   @Autowired
 		    private WebApplicationContext wac;
@@ -104,7 +108,7 @@ class OrderControllerTest {
 		    	
 		    	
 		    }
-		    @ExpectedDatabase(value = "/shop/show_order_history", assertionMode = DatabaseAssertionMode.NON_STRICT)
+		    @ExpectedDatabase(value = "/test_orderU", assertionMode = DatabaseAssertionMode.NON_STRICT)
 		    @Test
 		    @DisplayName("注文確認画面")
 		    void test3() throws Exception{
@@ -118,11 +122,17 @@ class OrderControllerTest {
 			    			 .andReturn();
 			    	  ModelAndView mav = mvcResult.getModelAndView();
 			    	  @SuppressWarnings(value = "unchecked")
-			    	  List<OrderItem> orderItemList  = (List<OrderItem>) mav.getModel().get("orderItemList");
+			    	  List<OrderItem> orderItemList  = (List<OrderItem>) mav.getModel().get("shoppingCart");
 			    	  System.out.println(orderItemList );
 			    	  System.out.println(session);
-			    	 
-			    	  assertEquals(1, session, "idが一致していない");
+
+			          MockHttpSession mockSession = (MockHttpSession) mvcResult.getRequest().getSession();
+			          Integer name = (Integer) mockSession.getAttribute("サウナタオル白");
+			          
+			    	  
+//			    	 SessionUtil
+			    	  
+		    	  assertEquals("サウナタオル白",name,"idが一致していない");
 			    	  
 		    	
 		    }
