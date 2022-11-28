@@ -6,4 +6,4 @@ spring:
         password: postgres
   sql:
     init:
-      mode: always
+      mode: "always"
