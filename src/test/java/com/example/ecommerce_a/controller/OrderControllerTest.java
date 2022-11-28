@@ -100,7 +100,7 @@ class OrderControllerTest {
 
 	}
 
-	@ExpectedDatabase(value = "/test_orderU", assertionMode = DatabaseAssertionMode.NON_STRICT)
+	@ExpectedDatabase(value = "/test_order", assertionMode = DatabaseAssertionMode.NON_STRICT)
 	@Test
 	@DisplayName("注文確認画面")
 	void test3() throws Exception {
