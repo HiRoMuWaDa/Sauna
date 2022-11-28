@@ -113,7 +113,7 @@ class OrderControllerTest {
 							.session(session)//セッションに入る
 							
 							
-							).andExpect(view().name("order-finished"))//遷移先のHTML
+							).andExpect(view().name("order_confirm_pointUsable"))//遷移先のHTML
 			    			 .andReturn();
 			    	  ModelAndView mav = mvcResult.getModelAndView();
 			    	  @SuppressWarnings(value = "unchecked")

@@ -21,6 +21,7 @@ import org.springframework.mock.web.MockHttpSession;
 public class SessionUtil {
 	@Autowired
 	ShoppingCartController shoppingcontroller;
+
 	@Autowired
 
 	public static MockHttpSession createUserIdAndUserSession() {
@@ -56,42 +57,28 @@ public class SessionUtil {
 		user.setZipcode("1111111");
 		user.setTelephone("テスト電話番号");
 		sessionMap.put("userId", user.getId());
-		
-		
 		sessionMap.put("user", user);
-		Order order=new Order();
-		OrderItem orderitem=new OrderItem();
-		Item item=new Item();
-		List<OrderItem> orderItemList=new ArrayList<>();
-		
-		item.setId(0);
-		item.setName(null);
-		orderitem.setId(0);
-		orderitem.setItem(null);
-		orderitem.setItemId(0);
-		orderitem.setOrderId(0);
-		orderitem.setSize('M');
-		orderitem.setQuantity(0);
-		orderItemList.set(orderitem.getId(), orderitem);
-		orderItemList.set(orderitem.getItemId(), orderitem);
-		orderItemList.set(orderitem.getOrderId(), orderitem);
-		orderItemList.set(orderitem.getSize(), orderitem);
-		orderItemList.set(orderitem.getQuantity(), orderitem);
-		
-		
-		
-		
-		
-		sessionMap.put("orderItemList", orderItemList.get(0));
-//	
-		sessionMap.put("orderItemList", orderItemList);
-	
-		
-		
 
-	
+		Order order = new Order();
+		List<OrderItem> orderItemList = new ArrayList<>();
+//		order.setTotalPrice(10000);
+		order.setOrderItemList(orderItemList);		
+		OrderItem orderItem = new OrderItem();
+		Item item = new Item();
+		item.setId(1);
+		item.setName("サウナタオル白");
+		item.setPriceS(1000);
+		orderItem.setItemId(1);
+		orderItem.setQuantity(10);
+		orderItem.setSize('S');
+		orderItem.setItem(item);
+		orderItemList.add(orderItem);
+		List<OrderOption> orderOptionList = new ArrayList<>();
+		orderItem.setOrderOptionList(orderOptionList);
+		sessionMap.put("shoppingCart", order);
 		return createMockHttpSession(sessionMap);
 	}
+
 	private static MockHttpSession createMockHttpSession(Map<String, Object> sessions) {
 		MockHttpSession mockHttpSession = new MockHttpSession();
 		for (Map.Entry<String, Object> session : sessions.entrySet()) {
