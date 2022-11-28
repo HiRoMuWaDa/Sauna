@@ -145,6 +145,10 @@ public class OrderController {
 		//前提条件→ログイン、CSVで注文データ追加
 		
 		// ここからポイント使用システム
+		/*
+		 * Pointがある場合→sessionにuserデータを入れる、使う場合はuseduserを使う
+		 * 
+		 */
 		
 				Integer usedPoint = form.getUsePointAsInteger();
 				if(usedPoint != 0) {

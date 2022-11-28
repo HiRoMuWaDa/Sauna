@@ -116,18 +116,18 @@ class OrderControllerTest {
 		 OrderConfirmForm pointform=new OrderConfirmForm();
 		 
 
-		MockHttpSession mockSession = (MockHttpSession) mvcResult.getRequest().getSession();
-		List<Integer> usablePointList = (List<Integer>) mav.getModel().get("usablePointList");
-		for (Integer pointList :usablePointList ) {
-			List<Integer> orderItemList = order.getOrderItemList();
-			
-
-			OrderItem orderItem = orderItemList.get(0);
-			assertEquals(1, orderItem.getItemId(), "idが一致していない");
-
-		}
-		
-	
+//		MockHttpSession mockSession = (MockHttpSession) mvcResult.getRequest().getSession();
+//		List<Integer> usablePointList = (List<Integer>) mav.getModel().get("usablePointList");
+//		for (Integer pointList :usablePointList ) {
+//			List<Integer> orderItemList = order.getOrderItemList();
+//			
+//
+//			OrderItem orderItem = orderItemList.get(0);
+//			assertEquals(1, orderItem.getItemId(), "idが一致していない");
+//
+//		}
+//		
+//	
 		
 //		@SuppressWarnings(value = "unchecked")
 //		List<Integer> usablePointList = (List<Integer>) mav.getModel().get("usablePointList");
