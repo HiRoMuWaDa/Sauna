@@ -54,12 +54,34 @@ class ItemControllerTest {
 	@Test
 	@DisplayName("商品一覧画面表示")
 	void test1() throws Exception {
-		MvcResult mvcResult = mockMvc.perform(get("/shop")).andExpect(view().name("item_list"))
-				.andReturn();
+		MvcResult mvcResult = mockMvc.perform(get("/shop")).andExpect(view().name("item_list")).andReturn();
 
 		ModelAndView mav = mvcResult.getModelAndView();
+		@SuppressWarnings(value = "unchecked") // 下のキャストのワーニングを出さないようにする
 		List<Item> itemList = (List<Item>) mav.getModel().get("itemList");
+		assertEquals(11, itemList.size());
 
 	}
+
+//未完成エラー出る
+	@Test
+	@DisplayName("商品一覧(sサイズ安い順)")
+	void test2() throws Exception {
+		MvcResult mvcResult = mockMvc.perform(get("/shop").param("1", "price_s")).andExpect(view().name("item_list"))
+				.andReturn();
+		ModelAndView mav = mvcResult.getModelAndView();
+		@SuppressWarnings(value = "unchecked") // 下のキャストのワーニングを出さないようにする
+		List<Item> itemList = (List<Item>) mav.getModel().get("ItemList");
+//		Item item = itemList.get(0);
+//		assertEquals("靴下白", item.getName(), "error");
+
+	}
+//未完成エラー出る
+//	@Test
+//	@DisplayName("商品詳細")
+//	void test() throws Exception {
+//		mockMvc.perform(get("/shop/showDetail")).andExpect(view().name("item_detail")).andReturn();
+//
+//	}
 
 }

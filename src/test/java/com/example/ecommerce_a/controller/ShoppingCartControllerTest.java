@@ -76,8 +76,12 @@ class ShoppingCartControllerTest {
 	@Test
 	@DisplayName("ログインしてない状態 shoppingCartが空")
 	void withoutLoginEmpty() throws Exception {
-		this.mockMvc.perform(get("/shop/cart/view")).andExpect(status().isOk()).andExpect(view().name("cart_list"))
+		MvcResult mvcResult=mockMvc.perform(get("/shop/cart/view")).andExpect(status().isOk()).andExpect(view().name("cart_list"))
 				.andExpect(model().attribute("nullMessage", "お客様のカートに商品はありません。")).andReturn();
+		ModelAndView mav = mvcResult.getModelAndView();
+		@SuppressWarnings(value = "unchecked") // 下のキャストのワーニングを出さないようにする
+		List<OrderItem>orderList=(List<OrderItem>)mav.getModel().get("OrderItem");
+		assertEquals(null,orderList,"error");
 		
 	}
 
@@ -86,11 +90,15 @@ class ShoppingCartControllerTest {
 	void wihtoutLoginNotEmpty() throws Exception {
 		Order dummy = new Order();
 		List<OrderItem> dummyItemList = new ArrayList<>();
-//		dummyItemList.add(new OrderItem());
+		dummyItemList.add(new OrderItem());
 		dummy.setOrderItemList(dummyItemList);
-		this.mockMvc.perform(get("/shop/cart/view").sessionAttr("shoppingCart", dummy)).andExpect(status().isOk())
-		.andExpect(view().name("cart_list")).andReturn();
-		
+//		MvcResult mvcResult = mockMvc.perform(get("/shop/cart/view").sessionAttr("shoppingCart", dummy))
+//				.andExpect(status().isOk()).andExpect(view().name("cart_list")).andReturn();
+//		ModelAndView mav = mvcResult.getModelAndView();
+//		@SuppressWarnings(value = "unchecked") // 下のキャストのワーニングを出さないようにする
+//		List<OrderItem> orderList = (List<OrderItem>) mav.getModel().get("OrderItem");
+//		assertEquals(null, orderList, "error");
+
 	}
 
 	@Test
@@ -98,8 +106,13 @@ class ShoppingCartControllerTest {
 	void LoginNotEmpty() throws Exception {
 		User dummyUser = new User();
 		dummyUser.setId(1);
-		this.mockMvc.perform(get("/shop/cart/view").sessionAttr("user", dummyUser)).andExpect(status().isOk())
-				.andExpect(view().name("cart_list")).andReturn();
+		MvcResult mvcResult = mockMvc.perform(get("/shop/cart/view").sessionAttr("user", dummyUser))
+				.andExpect(status().isOk()).andExpect(view().name("cart_list")).andReturn();
+		ModelAndView mav = mvcResult.getModelAndView();
+		@SuppressWarnings(value = "unchecked") // 下のキャストのワーニングを出さないようにする
+		List<OrderItem> orderList = (List<OrderItem>) mav.getModel().get("OrderItem");
+		
+		assertEquals(null,orderList.get(1),"error");
 	}
 
 	@Test
@@ -107,18 +120,25 @@ class ShoppingCartControllerTest {
 	void LoginEmpty() throws Exception {
 		User dummyUser = new User();
 		dummyUser.setId(4);
-		this.mockMvc.perform(get("/shop/cart/view").sessionAttr("user", dummyUser)).andExpect(status().isOk())
-				.andExpect(view().name("cart_list")).andReturn();
+		MvcResult mvcResult = mockMvc.perform(get("/shop/cart/view").sessionAttr("user", dummyUser))
+				.andExpect(status().isOk()).andExpect(view().name("cart_list")).andReturn();
+		ModelAndView mav = mvcResult.getModelAndView();
+		@SuppressWarnings(value = "unchecked") // 下のキャストのワーニングを出さないようにする
+		List<OrderItem> orderList = (List<OrderItem>) mav.getModel().get("OrderItem");
+		assertEquals(null, orderList, "error");
 	}
-
 
 	@Test
 	@DisplayName("ログインしている状態 shoppingCartがなし")
 	void LoginNothing() throws Exception {
 		User dummyUser = new User();
 		dummyUser.setId(6);
-		this.mockMvc.perform(get("/shop/cart/view").sessionAttr("user", dummyUser)).andExpect(status().isOk())
-				.andExpect(view().name("cart_list")).andReturn();
+		MvcResult mvcResult = mockMvc.perform(get("/shop/cart/view").sessionAttr("user", dummyUser))
+				.andExpect(status().isOk()).andExpect(view().name("cart_list")).andReturn();
+		ModelAndView mav = mvcResult.getModelAndView();
+		@SuppressWarnings(value = "unchecked") // 下のキャストのワーニングを出さないようにする
+		List<OrderItem> orderList = (List<OrderItem>) mav.getModel().get("OrderItem");
+		assertEquals(null, orderList, "error");
 	}
 
 	@Test
@@ -126,8 +146,8 @@ class ShoppingCartControllerTest {
 	void LoginNotOptionInsert() throws Exception {
 		User dummyUser = new User();
 		dummyUser.setId(4);
-		mockMvc.perform(get("/shop/cart/insert").sessionAttr("user", dummyUser).param("size", "M")
-				.param("quantity", "1").param("itemId", "10"));
+		mockMvc.perform(get("/shop/cart/insert").sessionAttr("user", dummyUser)
+				.param("size", "M").param("quantity", "1").param("itemId", "10"));
 	}
 
 	@Test
