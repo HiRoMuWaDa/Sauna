@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import javax.servlet.ServletContext;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -21,8 +23,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.example.ecommerce_a.form.LoginForm;
 import com.example.ecommerce_a.util.CsvDataSetLoader;
+import com.example.ecommerce_a.util.SessionUtil;
 import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DbUnitConfiguration;
@@ -128,27 +130,56 @@ class LoginControllerTest {
 		    
 	}
 	@Test
-	@DisplayName("ログイン成功→カートの中に入れている状態")
+	@DisplayName("ログイン成功→カートの中に入れている状態、orderConfilmにreturn")
 	@DatabaseSetup("/cartItem")
 	void test4() throws Exception{
-			MvcResult mvcResult = mockMvc.perform(get("/shop/login-result")
-					.param("email", "sample@gmail.com")
-					.param("password", "abababab"))
-                    .andReturn();
-			
-			MockHttpSession session = (MockHttpSession) mvcResult.getRequest().getSession();
-			String name = (String) session.getAttribute("name");
-		    assertEquals("テストパスさんこんにちは！", name);
-			
+		
+        MockHttpSession userIdSession = SessionUtil.createShoppingCartIdItemSession();
+        MvcResult mvcResult = mockMvc.perform(get("/shop/login-result")
+        		.session(userIdSession)
+        		.param("email", "sample@gmail.com")
+        		.param("password", "abababab"))
+        		.andExpect(view().name("redirect:/shop/orderConfirm"))
+                .andReturn();
+	}
+	
+	@Test
+	@DisplayName("ログイン成功→カートの中に入れている状態、researchにreturn")
+	@DatabaseSetup("/cartItem")
+	void test5() throws Exception{
+		
+        MockHttpSession userIdSession = SessionUtil.createShoppingCartIdItemSession2();
+        MvcResult mvcResult = mockMvc.perform(get("/shop/login-result")
+        		.session(userIdSession)
+        		.param("email", "sample@gmail.com")
+        		.param("password", "abababab"))
+        		.andExpect(view().name("redirect:/research"))
+                .andReturn();
+	}
+	
+	@Test
+	@DisplayName("ログイン成功→カート新規作成")
+	void testXXX() throws Exception{
+        MockHttpSession userIdSession = SessionUtil.createShoppingCartIdItemSessionXXX();
+        MvcResult mvcResult = mockMvc.perform(get("/shop/login-result")
+        		.session(userIdSession)
+        		.param("email", "sample@gmail.com")
+        		.param("password", "abababab"))
+        		.andExpect(view().name("redirect:/shop"))
+                .andReturn();
+        
+        ServletContext application = mvcResult.getRequest().getServletContext();
+		
 	
 	}
 	
 	@Test
 	@DisplayName("ログアウト画面の表示")
-	void  testppp()throws Exception{
+	void  testStop()throws Exception{
 			 mockMvc.perform(get("/shop/logout"))
-	         .andExpect(view().name("/shop"));
+	         .andExpect(view().name("redirect:/shop"));
 	}
+	
 
 	
 

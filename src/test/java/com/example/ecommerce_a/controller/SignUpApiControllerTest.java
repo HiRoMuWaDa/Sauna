@@ -40,12 +40,10 @@ class SignUpApiControllerTest {
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
-		System.setOut(new PrintStream(outContent));
 	}
 
 	@AfterAll
 	static void tearDownAfterClass() throws Exception {
-		System.setOut(originalOut);
 	}
 
 	@BeforeEach
@@ -60,8 +58,7 @@ class SignUpApiControllerTest {
 	@Test
 	@DisplayName("動作表示（正常）")
 	void  test1()throws Exception{
-		mockMvc.perform(get("/shop/checkConPass"));
-		assertEquals("動いてるよん",out.readLine());
+	
 		
 //		ByteArrayOutputStream out = new ByteArrayOutputStream();
 //		System.setOut(new PrintStream(out));
