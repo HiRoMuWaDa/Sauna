@@ -62,7 +62,8 @@ public class SessionUtil {
 		Order order = new Order();
 		List<OrderItem> orderItemList = new ArrayList<>();
 //		order.setTotalPrice(10000);
-		order.setOrderItemList(orderItemList);		
+		order.setOrderItemList(orderItemList);	
+		//orderにorderListをセット
 		OrderItem orderItem = new OrderItem();
 		Item item = new Item();
 		item.setId(1);

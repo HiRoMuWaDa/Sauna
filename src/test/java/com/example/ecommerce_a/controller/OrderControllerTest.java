@@ -104,6 +104,7 @@ class OrderControllerTest {
 		    	
 		    	
 		    }
+		    @ExpectedDatabase(value = "/shop/show_order_history", assertionMode = DatabaseAssertionMode.NON_STRICT)
 		    @Test
 		    @DisplayName("注文確認画面")
 		    void test3() throws Exception{
@@ -120,6 +121,9 @@ class OrderControllerTest {
 			    	  List<OrderItem> orderItemList  = (List<OrderItem>) mav.getModel().get("orderItemList");
 			    	  System.out.println(orderItemList );
 			    	  System.out.println(session);
+			    	 
+			    	  assertEquals(1, session, "idが一致していない");
+			    	  
 		    	
 		    }
 		    
