@@ -37,6 +37,7 @@ public class ShoppingCartService {
 	@Autowired
 	private OptionRepository optionRepository;
 	
+	
 	/**
 	 * 現在ログインしているユーザー情報に紐づく、注文前ステータスのorderドメインを取得するためのメソッド.<br>
 	 * 
@@ -51,6 +52,11 @@ public class ShoppingCartService {
 			return shoppingCartAsList.get(0) ;
 		}
 	}
+	/**
+	 * List<Order> shoppingCartAsList =orderRepository.findByUserIdAndStatus(user.getId(), 0);→shoppingCartAsList内に選ばれた商品をリスト型で入れる
+	 * nullなら0,nullでなければget(0)で先頭の shoppingCartAsListデータを返す
+	 * 	 * 	 * @param orderItemId
+	 */
 	
 	public void deleteItemOf(Integer orderItemId) {
 		orderItemRepository.delete(orderItemId);

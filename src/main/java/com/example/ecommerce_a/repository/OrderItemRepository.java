@@ -25,6 +25,7 @@ public class OrderItemRepository {
 		List<OrderItem> orderItemList =template.query(sql, param,ORDERITEM_ROW_MAPPER);
 		return orderItemList;
 	}
+	//sqlの読み込み　order_itemsから登録された商品の検索しOrderListに入れていく orderItemListで返す
 	
 	public void delete (Integer orderItemId) {
 		
@@ -32,6 +33,7 @@ public class OrderItemRepository {
 		SqlParameterSource param = new MapSqlParameterSource().addValue("orderItemId",orderItemId);
 		template.update(sql, param);
 	}
+	//idから商品の削除
 	
 	public int insert(OrderItem orderItem) {
 		String sql = "INSERT INTO order_items (item_id,order_id, quantity , size) VALUES (:itemId,:orderId,:quantity,:size) RETURNING id;";

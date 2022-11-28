@@ -31,6 +31,8 @@ import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 
+import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -69,8 +71,8 @@ class OrderControllerTest {
 		
 //		    @ExpectedDatabase(value = "/shop/show_order_history", assertionMode = DatabaseAssertionMode.NON_STRICT)
 		    @Test
-	@DatabaseSetup("/test_login")
-	    @DatabaseSetup("/test_order")
+//	@DatabaseSetup("/test_login")
+//	    @DatabaseSetup("/test_order")
 		    
 		    void insert_1() throws Exception {
 		    	MockHttpSession session = SessionUtil.createUserIdAndUserSession();
@@ -97,8 +99,33 @@ class OrderControllerTest {
 //		    	  assertEquals("orderHistory",orderHistory);
 		    	  
 		    }
+		    @DisplayName("注文完了画面")
+		    void test2() throws Exception{
+		    	
+		    	
+		    }
+		    @Test
+		    @DisplayName("注文確認画面")
+		    void test3() throws Exception{
+		    
+			    	MockHttpSession session = SessionUtil.createShoppingCartIdAｄItemSession();//ログイン処理
+					MvcResult mvcResult = mockMvc.perform(get("/shop/orderConfirm")//元のURL
+							.session(session)//セッションに入る
+							
+							
+							).andExpect(view().name("order-finished"))//遷移先のHTML
+			    			 .andReturn();
+			    	  ModelAndView mav = mvcResult.getModelAndView();
+			    	  @SuppressWarnings(value = "unchecked")
+			    	  List<OrderItem> orderItemList  = (List<OrderItem>) mav.getModel().get("orderItemList");
+			    	  System.out.println(orderItemList );
+			    	  System.out.println(session);
+		    	
+		    }
+		    
 		              
-		    };
+		    }
+		    
 		    
 
 

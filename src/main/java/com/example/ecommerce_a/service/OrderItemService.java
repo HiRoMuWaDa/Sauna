@@ -17,5 +17,8 @@ public class OrderItemService {
 		List<OrderItem> orderItemList = orderItemRepository.findAllOrderItem(orderId);
 		return orderItemList;
 	}
+	//List<OrderItem>→注文されたアイテム（商品id、数量、サイズ、オプションリストなど）
+	//	List<OrderItem> orderItemList = orderItemRepository.findAllOrderItem(orderId);
+	//→商品をsqlから検索してきてリストに入れる
 		
 }

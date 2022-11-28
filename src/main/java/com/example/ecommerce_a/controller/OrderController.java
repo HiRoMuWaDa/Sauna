@@ -59,6 +59,7 @@ public class OrderController {
 			form.setDestinationAddress(user.getAddress());
 			form.setDestinationTel(user.getTelephone());	
 		}
+		//OrderConfimの値にuserの値をセットformで返す
 		
 		return form;
 //		return new OrderConfirmForm();
@@ -84,27 +85,30 @@ public class OrderController {
 		if (result.hasErrors()) {
 			return orderConfirm(model);
 		}
-		
+		//エラーが出たら戻される
+		//formにはuserの情報がある		
 		User user = (User) session.getAttribute("user"); 
+		//user情報の取得
 		
 		Order order = shoppingCartService.getShoppingCartOf(user);
-		
+		//ショッピングカートからオーダー内容を取得
 		order.setOrderDate(new Date());
-		
-		
+		//オーダーに日付をセット
 		order.setStatus(1);
 		order.setDestinationName(form.getDestinationName());
 		order.setDestinationEmail(form.getDestinationEmail());
 		order.setDestinationZipcode(form.getDestinationZipcode());
 		order.setDestinationAddress(form.getDestinationAddress());
 		order.setDestinationTel(form.getDestinationTel());
-	
+	//orderにformのデータをセットする
 		Date formDate = form.getDeliveryDateAsDate();
+		//getDeliveryDateAsDate→OrderconfimFormから　配達予定日の取得
 		LocalTime formTime = form.getDeliveryTimeAsLocalTime();
 		System.out.println("formTime:"+formTime);
 		
 		LocalDateTime localDateTime = LocalDateTime.of(1900 + formDate.getYear(), 1 + formDate.getMonth(), formDate.getDate(), formTime.getHour(), formTime.getMinute());
-		
+		//deliveryTImeASLocalTime→配達時間
+		//LocalDateTime~→カレンダー
 		
 		
 		// 取得した時間が、現時点から3時間後以前の場合はエラー
@@ -113,24 +117,32 @@ public class OrderController {
 			model.addAttribute("deliveryTimeError","現在より3時間後以降の日時をご入力ください");
 			return orderConfirm(model);
 		}
+		//return orderConfirm→三時間以内ならエラーして下にあるorderConfirmに遷移
 		
 		
 		System.out.println("注文日時:"+localDateTime);
 		System.out.println(formDate.getYear());
 		order.setDeliveryTime(Timestamp.valueOf(localDateTime));
 		order.setPaymentMethod(form.getPaymentMethod());
-		
+		//PaymentMethod→支払方法
 		if(form.getPaymentMethod()==2) {
 			order.setStatus(2);
 		}else {
 			order.setStatus(1);
 		}
-		
-		
+		//status→合計金額　引数１が代引き　２がクレジット	
 		
 		order = orderService.completeOrder(order);
 
+//sqlが入って戻ってくる、orderに追加される
+	
+	
 		model.addAttribute("order", order);
+		//リクエストｽｺｰﾌﾟに追加
+		
+		
+		//テスト候補→リクエストのorderにsqlが入っているか確認する
+		//前提条件→ログイン、CSVで注文データ追加
 		
 		// ここからポイント使用システム
 		
@@ -161,20 +173,31 @@ public class OrderController {
 	public String orderFinished() {
 		return "order_finished";
 	}
+	//注文完了画面の表示、returnで商品一覧へ
+	
 
 	@RequestMapping("/orderConfirm")
 	public String orderConfirm(Model model) {
 		System.out.println(session.getAttribute("user"));
+		///rakurakusauna/shop/orderConfirm→注文確認画面
+		//System.out.println(session.getAttribute("user"));→userデータのコンソール表示
 		
 
 		if (session.getAttribute("user") != null) {
+		
 			// Order order = orderService.findById();
 			Order order = new Order();
 			order.setId(((User)session.getAttribute("user")).getId());
 			order.setOrderItemList(orderItemService.orderConfirm(order.getId()));
-			List<OrderItem> orderItemList = order.getOrderItemList();
+			List<OrderItem> orderItemList = order.getOrderItemList();//←選ばれた注文データが入っている
 			session.setAttribute("orderItemList", orderItemList);
-
+			System.out.println(orderItemList);
+			//１．userがいる場合、session.getAttribute("user")).getId());からidの取得しorder.setId(((User)にセット、買う人のデータ
+			//２．setOrderItemListにorderItemService.orderConfirm(order.getId()))から注文データをもらいセットする
+			//３．List<OrderItem> orderItemList →先ほどセットした商品を orderItemListに追加して一つの注文内容にする
+			//４．注文内容をsessionに入れる
+			//５．リスト型でデータがとられているはず
+         
 			//ここからポイント使用機能
 			User user = (User)session.getAttribute("user");
 			Order shoppingCart = (Order) session.getAttribute("shoppingCart");

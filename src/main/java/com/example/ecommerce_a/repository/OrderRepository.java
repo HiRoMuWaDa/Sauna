@@ -121,7 +121,7 @@ public class OrderRepository {
 				+ "WHERE o.user_id =  :userId and o.status != 0 ORDER BY o.order_date DESC;";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId);
 		return template.query(sql, param, ORDER_RESULT_SET_EXTRACTOR);
-
+//destination→
 	}
 	
 	

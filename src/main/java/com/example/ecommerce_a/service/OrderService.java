@@ -26,7 +26,7 @@ public class OrderService {
 		order = orderRepository.save(order);
 		return order;
 	}
-	
+	//save→order sql文のUPDATE文に飛ぶ、その後orderに返ってくる
 	public List<Order> showOrderHistoryOf(User user){
 		return orderRepository.findOrderHistory(user.getId());
 	}
