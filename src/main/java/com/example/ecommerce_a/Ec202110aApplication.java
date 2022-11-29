@@ -8,6 +8,6 @@ public class Ec202110aApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Ec202110aApplication.class, args);
-	}
+	};
 
-}
+};

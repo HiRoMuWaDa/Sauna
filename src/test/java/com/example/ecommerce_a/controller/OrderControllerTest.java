@@ -94,13 +94,22 @@ class OrderControllerTest {
 
 	}
 	
-
+	@Test
 	@DisplayName("注文完了画面")
 	void test2() throws Exception {
+		MockHttpSession session = SessionUtil.createUserIdAndUserSession();
+		MvcResult mvcResult = mockMvc.perform(get("/shop/order-finished")// 元のURL
+				.session(session)// セッションに入る
+		).andExpect(view().name("order_finished"))// 遷移先のHTML
+				.andReturn();
+		ModelAndView mav = mvcResult.getModelAndView();
+
+//		@SuppressWarnings(value = "unchecked")
+//		List<Order> orderHistory = (List<Order>) mav.getModel().get("orderHistory");
 
 	}
 
-	@ExpectedDatabase(value = "/test_order", assertionMode = DatabaseAssertionMode.NON_STRICT)
+	@ExpectedDatabase(value = "/user_point", assertionMode = DatabaseAssertionMode.NON_STRICT)
 	@Test
 	@DisplayName("注文確認画面")
 	void test3() throws Exception {
@@ -136,8 +145,8 @@ class OrderControllerTest {
 //		System.out.println("order = " + order);
 		
 
-	}
+	};
 	
 	
 
-}
+};
