@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpSession;
 
@@ -15,6 +16,7 @@ import com.example.ecommerce_a.domain.OrderItem;
 import com.example.ecommerce_a.domain.OrderOption;
 import com.example.ecommerce_a.domain.User;
 import com.example.ecommerce_a.form.OrderConfirmForm;
+
 
 public class SessionUtil {
 	@Autowired
@@ -27,7 +29,7 @@ public class SessionUtil {
 		User user = new User();
 		user.setId(1);
 		user.setName("テストユーザ");
-		user.setEmail("coffeeshop.test@gmail.com");
+		user.setEmail("test@test.co.jp");
 		user.setPassword("abc");
 		user.setAddress("テスト住所");
 		user.setZipcode("1111111");
@@ -83,6 +85,7 @@ public class SessionUtil {
 	}
 
 	private static MockHttpSession createMockHttpSession(Map<String, Object> sessions) {
+
 		MockHttpSession mockHttpSession = new MockHttpSession();
 		for (Map.Entry<String, Object> session : sessions.entrySet()) {
 			mockHttpSession.setAttribute(session.getKey(), session.getValue());
@@ -94,3 +97,8 @@ public class SessionUtil {
 
 		
 	}
+
+
+  
+}
+
