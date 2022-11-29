@@ -93,6 +93,17 @@ ON DELETE CASCADE
 ON UPDATE CASCADE
 );
 
+--reviews TABLE
+DROP TABLE IF EXISTS reviews;
+CREATE TABLE reviews(
+ id serial primary key,
+ name text not null,
+ review text not null,
+ saunas_id integer not null,
+ deleted boolean default false not null,
+FOREIGN KEY (saunas_id) REFERENCES saunas (id) ON DELETE CASCADE
+);
+
 --items TABLE
 INSERT INTO items
 (name, description, price_s, price_m, price_l, image_path) values
@@ -114,10 +125,6 @@ insert into options values
 (2, '名前の刺繍', 300);
 
 
---reviews
-INSERT INTO reviews 
-(name, review, saunas_id) VALUES 
-('test', 'test', 1);
 
 --saunas TABLE
 INSERT INTO saunas (name, area, price, male_sauna_room_temp, male_water_bath, female_sauna_room_temp, female_water_bath, description, image_path, url)
@@ -137,13 +144,7 @@ insert into users
 (name, email, password, zipcode, address, telephone, point) values
 ('テストユーザ', 'test@test.co.jp', 'test','1111111', 'テスト住所', 'テスト電話番号', 0);
 
---reviews TABLE
-DROP TABLE IF EXISTS reviews;
-CREATE TABLE reviews(
- id serial primary key,
- name text not null,
- review text not null,
- saunas_id integer not null,
- deleted boolean default false not null,
-FOREIGN KEY (saunas_id) REFERENCES saunas (id) ON DELETE CASCADE
-);
+--reviews
+INSERT INTO reviews 
+(name, review, saunas_id) VALUES 
+('test', 'test', 1);
