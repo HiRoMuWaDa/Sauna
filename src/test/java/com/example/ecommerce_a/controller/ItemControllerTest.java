@@ -77,7 +77,9 @@ class ItemControllerTest {
 	@Test
 	@DisplayName("商品検索(パーカー)")
 	void searchItemByName() throws Exception {
-		MvcResult mvcResult = mockMvc.perform(get("/shop/search-item-by-name").param("searchingName", "パーカー"))
+		MvcResult mvcResult = mockMvc.perform(get("/shop/search-item-by-name")
+				.param("searchingName", "パーカー")
+				.param("sort", "1"))
 				.andExpect(view().name("item_list"))
 				.andReturn();
 
