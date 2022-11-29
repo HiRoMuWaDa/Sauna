@@ -49,7 +49,6 @@ public class LoginController {
 	@RequestMapping("/login-result")
 	public String login(LoginForm form, Model model) {
 		User user = loginService.login(form.getEmail(), form.getPassword());
-
 		if (user == null) {
 			model.addAttribute("errorMessage", "メールアドレスまたはパスワードが不正です。");
 			return toLogin();

@@ -34,10 +34,10 @@ public class LoginService {
 		if(user == null || user.size()==0) {
 			return null;
 		}
-		
 		if (!passwordEncoder.matches(password, user.get(0).getPassword())) {
 			return null;
 		}
+		System.out.println(111);
 		return user.get(0);
 	}
 }
