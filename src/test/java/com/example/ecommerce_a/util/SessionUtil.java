@@ -5,18 +5,16 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockHttpSession;
+
 import com.example.ecommerce_a.controller.ShoppingCartController;
 import com.example.ecommerce_a.domain.Item;
 import com.example.ecommerce_a.domain.Order;
 import com.example.ecommerce_a.domain.OrderItem;
 import com.example.ecommerce_a.domain.OrderOption;
 import com.example.ecommerce_a.domain.User;
-import com.example.ecommerce_a.form.OrderForm;
-import com.example.ecommerce_a.repository.OrderItemRepository;
-import com.example.ecommerce_a.service.ShoppingCartService;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mock.web.MockHttpSession;
+import com.example.ecommerce_a.form.OrderConfirmForm;
 
 public class SessionUtil {
 	@Autowired
@@ -49,6 +47,8 @@ public class SessionUtil {
 	public static MockHttpSession createShoppingCartIdAｄItemSession() {
 		Map<String, Object> sessionMap = new LinkedHashMap<String, Object>();
 		User user = new User();
+		OrderConfirmForm form =new OrderConfirmForm();
+		form.setUsePoint("50");
 		user.setId(1);
 		user.setName("テストユーザ");
 		user.setEmail("coffeeshop.test@gmail.com");

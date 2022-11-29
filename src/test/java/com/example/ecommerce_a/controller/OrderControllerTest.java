@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.ecommerce_a.domain.Order;
 import com.example.ecommerce_a.domain.OrderItem;
+import com.example.ecommerce_a.domain.User;
 import com.example.ecommerce_a.form.OrderConfirmForm;
 import com.example.ecommerce_a.util.CsvDataSetLoader;
 import com.example.ecommerce_a.util.SessionUtil;
@@ -102,14 +103,14 @@ class OrderControllerTest {
 				.session(session)// セッションに入る
 		).andExpect(view().name("order_finished"))// 遷移先のHTML
 				.andReturn();
-		ModelAndView mav = mvcResult.getModelAndView();
+		
 
 //		@SuppressWarnings(value = "unchecked")
 //		List<Order> orderHistory = (List<Order>) mav.getModel().get("orderHistory");
 
 	}
-
-	@ExpectedDatabase(value = "/user_point", assertionMode = DatabaseAssertionMode.NON_STRICT)
+	 @DatabaseSetup("/user_point")
+	//@ExpectedDatabase(value = "/user_point", assertionMode = DatabaseAssertionMode.NON_STRICT)
 	@Test
 	@DisplayName("注文確認画面")
 	void test3() throws Exception {
@@ -120,33 +121,33 @@ class OrderControllerTest {
 
 		).andExpect(view().name("order_confirm_pointUsable"))// 遷移先のHTML
 				.andReturn();
-		
+	
 		//ポイント使用
 		 OrderConfirmForm pointform=new OrderConfirmForm();
+		 // OrderConfirmForm
 		 
-
+		 Integer usedPoint=pointform.getUsePointAsInteger();
+		 //ここでポイントを使う
+	 
+		 assertEquals(0,usedPoint,"一致しません");//CSVでポイントを入れる
+		
+		 //point→Userクラス　Listではない
+	}
+	
+          //ポイントの付与
 //		MockHttpSession mockSession = (MockHttpSession) mvcResult.getRequest().getSession();
-//		List<Integer> usablePointList = (List<Integer>) mav.getModel().get("usablePointList");
-//		for (Integer pointList :usablePointList ) {
-//			List<Integer> orderItemList = order.getOrderItemList();
-//			
-//
-//			OrderItem orderItem = orderItemList.get(0);
-//			assertEquals(1, orderItem.getItemId(), "idが一致していない");
-//
-//		}
 //		
+//		}
 //	
-		
-//		@SuppressWarnings(value = "unchecked")
+//	@SuppressWarnings(value = "unchecked")
 //		List<Integer> usablePointList = (List<Integer>) mav.getModel().get("usablePointList");
-		
-
-//		System.out.println("order = " + order);
-		
-
-	};
+//
+//
+//	System.out.println("order = " + order);
+//	
+//
+//};
 	
 	
 
-};
+}

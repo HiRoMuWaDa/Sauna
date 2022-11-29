@@ -154,6 +154,7 @@ public class OrderController {
 				if(usedPoint != 0) {
 				User nowUser = (User) session.getAttribute("user");
 				User pointUsedUser = userService.updatePoint(nowUser, -1*usedPoint);
+				
 				session.setAttribute("user", pointUsedUser);
 				}
 				

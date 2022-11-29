@@ -174,5 +174,13 @@ insert into users
 (name, email, password, zipcode, address, telephone, point) values
 ('テストユーザ', 'test@test.co.jp', 'test','1111111', 'テスト住所', 'テスト電話番号', 0);
 
-
+--reviews TABLE
+DROP TABLE IF EXISTS reviews;
+CREATE TABLE reviews(
+ id serial primary key,
+ name text not null,
+ review text not null,
+ saunas_id integer not null,
+ deleted boolean default false not null,
+FOREIGN KEY (saunas_id) REFERENCES saunas (id) ON DELETE CASCADE
 );

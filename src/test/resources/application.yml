@@ -1,7 +1,7 @@
 spring:
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/ec-202201a-test
+    url: jdbc:postgresql://localhost:5432/ec-202110a-test
     username: postgres
     password: postgres
   sql:
