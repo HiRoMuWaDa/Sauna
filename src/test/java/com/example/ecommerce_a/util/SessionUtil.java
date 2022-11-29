@@ -3,8 +3,10 @@ package com.example.ecommerce_a.util;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+
 import com.example.ecommerce_a.domain.User;
 import org.springframework.mock.web.MockHttpSession;
+
 
 public class SessionUtil {
 
@@ -23,10 +25,12 @@ public class SessionUtil {
 	}
 
 	private static MockHttpSession createMockHttpSession(Map<String, Object> sessions) {
+
 		MockHttpSession mockHttpSession = new MockHttpSession();
 		for (Map.Entry<String, Object> session : sessions.entrySet()) {
 			mockHttpSession.setAttribute(session.getKey(), session.getValue());
 		}
 		return mockHttpSession;
 	}
+  
 }
