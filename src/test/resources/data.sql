@@ -1,13 +1,4 @@
---reviews TABLE
-DROP TABLE IF EXISTS reviews;
-CREATE TABLE reviews(
- id serial primary key,
- name text not null,
- review text not null,
- saunas_id integer not null,
- deleted boolean default false not null,
-FOREIGN KEY (saunas_id) REFERENCES saunas (id) ON DELETE CASCADE
-);
+
 
 --order_options TABLE
 DROP TABLE IF EXISTS order_options cascade;
@@ -101,6 +92,7 @@ CREATE TABLE users (
  point Integer not null default 0
 );
 
+
 --items TABLE
 INSERT INTO items
 (name, description, price_s, price_m, price_l, image_path) values
@@ -181,3 +173,14 @@ values ('戸越銀座温泉', '品川区',  750,  102, 17, 83, 16, '陽の湯と
 insert into users
 (name, email, password, zipcode, address, telephone, point) values
 ('テストユーザ', 'test@test.co.jp', 'test','1111111', 'テスト住所', 'テスト電話番号', 0);
+
+--reviews TABLE
+DROP TABLE IF EXISTS reviews;
+CREATE TABLE reviews(
+ id serial primary key,
+ name text not null,
+ review text not null,
+ saunas_id integer not null,
+ deleted boolean default false not null,
+FOREIGN KEY (saunas_id) REFERENCES saunas (id) ON DELETE CASCADE
+);

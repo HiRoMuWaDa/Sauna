@@ -57,7 +57,7 @@ class SaunasControllerTest {
 	}
 	@AfterAll
 	static void tearDownAfterClass() throws Exception {
-		System.out.println("TestFinish");	
+		System.out.println("TestFinish");
 	}
 	@BeforeEach
 	void setUp() throws Exception {
@@ -77,8 +77,6 @@ class SaunasControllerTest {
 	
 	@Test
 	@DisplayName("サウナ施設 一覧表示(全件表示)")
-	//@DatabaseSetup(value = "/test_SaunasController/")
-  	//@ExpectedDatabase(value = "/test_SaunasController", assertionMode = DatabaseAssertionMode.NON_STRICT)
 	void showList()throws Exception{
 		//①コントローラ呼び出し
 		
@@ -481,58 +479,67 @@ class SaunasControllerTest {
 	///////////////////////////////////////////
 	
 	@Test
-	@DisplayName("サウナ施設詳細 (id=2)")
+	@DisplayName("サウナ施設レビュー投稿 ")
+	@DatabaseSetup(value = "/SaunasControllerTestDB/postcomment_init")
+	@ExpectedDatabase(value = "/SaunasControllerTestDB/postcomment_exp", assertionMode = DatabaseAssertionMode.NON_STRICT)
 	void postcomment() throws Exception{
-		//①コントローラ呼び出し
+		//①コントローラ呼び出し&testDBへデータ挿入
 	    MockHttpSession userIdSession = SessionUtil.createUserIdAndUserSession();
-
-//	    Formでやるやり方があるはずなので後で調べる
-//	    ReviewForm form = new ReviewForm();
-//		    form.setName("あいうえお");
-//		    form.setReview("かきくけこ");
-	    
-	    MvcResult mvcResult = mockMvc.perform(get("/research/post-review")
-	    							 .session(userIdSession)
-	    							 .param("name", "あいうえお")
-	    							 .param("review", "かきくけこ")
-	    							 .param("saunasId", "2"))
-	    							 .andExpect(redirectedUrl("/research/sauna-showDetail?id=2"))
-									 .andReturn();
-		
-		//②スコープデータの呼び出し
-		ModelAndView mav = mvcResult.getModelAndView();
-		//@SuppressWarnings(value="unchecked")
-		Sauna saunaDetail = (Sauna) mav.getModel().get("sauna");
-		System.out.println(saunaDetail);
-		//Sauna saunaDetail = (Sauna) mav.getModel().get("sauna");
-		//List<Review> reviewList = saunaDetail.getReviewList();
-//		Review review = reviewList.get(0);
-//		String strReview = review.getReview();
-		
-		//③テスト
-		//温泉名をチェック
-		assertAll(
-				() -> assertEquals("かきくけこ", saunaDetail,"Detail_Error")
-			);
+	    mockMvc.perform(get("/research/post-review")
+							 .session(userIdSession)
+							 .param("name", "aaaaa")
+							 .param("review", "iiiii")
+							 .param("saunasId", "2"))
+							 .andExpect(redirectedUrl("/research/sauna-showDetail?id=2"))
+							 .andReturn();
+	    /**
+	     * @ExpectedDatabase
+	     * 	 データ挿入後とcsvの内容を比較し、合っていればJUnitが緑バーになる
+	     */
 	}
 	
+	@Test
+	@DisplayName("サウナ施設レビュー削除 ")
+	@DatabaseSetup(value = "/SaunasControllerTestDB/deleteReview_init")
+	@ExpectedDatabase(value = "/SaunasControllerTestDB/deleteReview_exp", assertionMode = DatabaseAssertionMode.NON_STRICT)
+	void deleteReview() throws Exception{
+		//①コントローラ呼び出し&testDBへデータ挿入
+	    MockHttpSession userIdSession = SessionUtil.createUserIdAndUserSession();
+	    mockMvc.perform(get("/research/delete-review")
+							 .session(userIdSession)
+							 .param("id", "2")
+							 .param("saunasId", "2"))
+							 .andExpect(redirectedUrl("/research/sauna-showDetail?id=2"))
+							 .andReturn();
+	    /**
+	     * @ExpectedDatabase
+	     * 	 データ挿入後とcsvの内容を比較し、合っていればJUnitが緑バーになる
+	     */
+	}
+	
+	
 	///////////////////////////////////////////
-	//			ログイン・ログアウト機能			 //
+	//			ログイン画面・ログアウト			 //
 	///////////////////////////////////////////
 	
-//	@Test
-//	@DisplayName("ログイン機能")
-//    void login() throws Exception {
-//		//①コントローラ呼び出し
-//        MockHttpSession userIdSession = SessionUtil.createUserIdAndUserSession();
-//        MvcResult mvcResult = mockMvc.perform(get("/userPage")
-//                        .session(userIdSession))
-//                .andExpect(view().name("redirect:/research"))
-//                .andReturn();
-//		
-//		//②スコープデータの呼び出し
-//		ModelAndView mav = mvcResult.getModelAndView();
-//		@SuppressWarnings(value="unchecked")
-//		
-//    }
+	@Test
+	@DisplayName("ログイン画面へ")
+    void login() throws Exception {
+		//①コントローラ呼び出し
+		mockMvc.perform(get("/research/login")).andExpect(view().name("redirect:/shop/login")).andReturn();
+		
+    }
+	
+	/**
+	 * session破棄されているか確認するassertが必要
+	 * Userを取り出してnullを確認?
+	 */
+	@Test
+	@DisplayName("ログアウト")
+    void logout() throws Exception {
+		//①コントローラ呼び出し
+		MockHttpSession userIdSession = SessionUtil.createUserIdAndUserSession();
+		MvcResult mvcResult = mockMvc.perform(get("/research/logout").session(userIdSession)).andExpect(view().name("redirect:/research")).andReturn();
+		
+    }
 }
