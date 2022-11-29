@@ -1,24 +1,4 @@
---reviews TABLE
-DROP TABLE IF EXISTS reviews;
-CREATE TABLE reviews(
- id serial primary key,
- name text not null,
- review text not null,
- saunas_id integer not null,
- deleted boolean default false not null,
-FOREIGN KEY (saunas_id) REFERENCES saunas (id) ON DELETE CASCADE
-);
 
---order_options TABLE
-DROP TABLE IF EXISTS order_options cascade;
-CREATE TABLE order_options(
- id serial primary key,
- option_id integer not null,
- order_item_id integer not null,
-FOREIGN KEY (order_item_id) REFERENCES order_items(id) 
-ON DELETE CASCADE 
-ON UPDATE CASCADE
-);
 
 --items TABLE
 DROP TABLE IF EXISTS items;
@@ -101,6 +81,18 @@ CREATE TABLE users (
  point Integer not null default 0
 );
 
+
+--order_options TABLE
+DROP TABLE IF EXISTS order_options cascade;
+CREATE TABLE order_options(
+ id serial primary key,
+ option_id integer not null,
+ order_item_id integer not null,
+FOREIGN KEY (order_item_id) REFERENCES order_items(id) 
+ON DELETE CASCADE 
+ON UPDATE CASCADE
+);
+
 --items TABLE
 INSERT INTO items
 (name, description, price_s, price_m, price_l, image_path) values
@@ -121,43 +113,6 @@ insert into options values
 (1, 'ワッペン', 300),
 (2, '名前の刺繍', 300);
 
---
-INSERT INTO order_items 
-(item_id, order_id, quantity, size) values
-(1 , 1 , 5 ,'M'),
-(2 , 1 , 5 ,'S'),
-(3 , 1 , 3 ,'L');	
-
-INSERT INTO order_items
-( item_id , order_id , quantity , size ) values
-(4 , 1 , 2 ,'M');
-
-INSERT INTO order_options
-(option_id,order_item_id) values
-(1 , 22),
-(2 , 22);
-
---order_options TABLE
-INSERT INTO order_options
-(option_id, order_item_id) values
-(1 , 1),
-(2 , 1),
-(1 , 2),
-(2 , 3);
-
---orders TABLE
-----使わない
-----INSERT INTO orders ( user_id , status , total_price , order_date , destination_name , destination_email , destination_zipcode , destination_address , destination_tel , delivery_time , payment_method)
-
---結合確認用SQL
-INSERT INTO orders ( user_id , status , total_price ) VALUES (1,0,0);
---結合確認用SQL
-INSERT INTO orders ( user_id , status , total_price ,order_date ,destination_name ,destination_email ,destination_zipcode ,destination_address ,destination_tel ,delivery_time ,payment_method ) 
-VALUES (1,1,1000000,'2021-11-21','ふるもとまさゆき','furumoto@rakus.co.jp','191-0042','東京都日野市程久保1-23-37','090-3531-7566','2021-11-29 18:00:00',2);
-
-INSERT INTO order_items ( item_id , order_id , quantity , size )
-values
-(4 , 5 , 2 ,'M');
 
 --reviews
 INSERT INTO reviews 
@@ -181,3 +136,14 @@ values ('戸越銀座温泉', '品川区',  750,  102, 17, 83, 16, '陽の湯と
 insert into users
 (name, email, password, zipcode, address, telephone, point) values
 ('テストユーザ', 'test@test.co.jp', 'test','1111111', 'テスト住所', 'テスト電話番号', 0);
+
+--reviews TABLE
+DROP TABLE IF EXISTS reviews;
+CREATE TABLE reviews(
+ id serial primary key,
+ name text not null,
+ review text not null,
+ saunas_id integer not null,
+ deleted boolean default false not null,
+FOREIGN KEY (saunas_id) REFERENCES saunas (id) ON DELETE CASCADE
+);

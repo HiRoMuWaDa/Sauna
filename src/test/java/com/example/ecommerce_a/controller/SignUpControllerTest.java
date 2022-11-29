@@ -1,30 +1,32 @@
 	package com.example.ecommerce_a.controller;
 	
-	import static org.junit.jupiter.api.Assertions.assertEquals;
-	import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-	import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-	
-	import org.junit.jupiter.api.AfterAll;
-	import org.junit.jupiter.api.AfterEach;
-	import org.junit.jupiter.api.BeforeAll;
-	import org.junit.jupiter.api.BeforeEach;
-	import org.junit.jupiter.api.DisplayName;
-	import org.junit.jupiter.api.Test;
-	import org.springframework.beans.factory.annotation.Autowired;
-	import org.springframework.boot.test.context.SpringBootTest;
-	import org.springframework.mock.web.MockHttpSession;
-	import org.springframework.test.context.TestExecutionListeners;
-	import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-	import org.springframework.test.web.servlet.MockMvc;
-	import org.springframework.test.web.servlet.MvcResult;
-	import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-	import org.springframework.web.context.WebApplicationContext;
-	import org.springframework.web.servlet.ModelAndView;
-	
-	import com.example.ecommerce_a.util.CsvDataSetLoader;
-	import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener;
-	import com.github.springtestdbunit.annotation.DatabaseSetup;
-	import com.github.springtestdbunit.annotation.DbUnitConfiguration;
+	import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.FlashMap;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.example.ecommerce_a.util.CsvDataSetLoader;
+import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 	
 	@SpringBootTest
 	@DbUnitConfiguration(dataSetLoader = CsvDataSetLoader.class)
@@ -122,8 +124,12 @@
 			 .param("telephone","000-0000-0000")
 			 .param("confirmationPassword","abababab")
 			 .param("message",""))
-	         .andExpect(view().name("redirect:/shop/login"))
+			 .andExpect(flash().attribute("message", "会員登録に成功しました。"))
 	         .andReturn();
+			
+			FlashMap flashMap = mvcResult.getFlashMap();
+			assertThat(flashMap.get("message")).isEqualTo("会員登録に成功しました。");
+			
 			
 			
 			

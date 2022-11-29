@@ -159,16 +159,16 @@ class LoginControllerTest {
 	
 	@Test
 	@DisplayName("ログイン成功→カート新規作成")
+
 	void testXXX() throws Exception{
-        MockHttpSession userIdSession = SessionUtil.createShoppingCartIdItemSessionXXX();
+        MockHttpSession userIdSession2 = SessionUtil.createShoppingCartIdItemSessionXXX();
         MvcResult mvcResult = mockMvc.perform(get("/shop/login-result")
-        		.session(userIdSession)
-        		.param("email", "sample@gmail.com")
-        		.param("password", "abababab"))
+        		.session(userIdSession2)
+        		.param("email", "test@test.co.jp")
+        		.param("password", "test"))
         		.andExpect(view().name("redirect:/shop"))
                 .andReturn();
         
-        ServletContext application = mvcResult.getRequest().getServletContext();
 		
 	
 	}

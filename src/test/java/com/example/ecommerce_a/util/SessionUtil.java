@@ -90,21 +90,26 @@ public class SessionUtil {
 		return createMockHttpSession(sessionMap);
 	}
 
+
+	
+	public static MockHttpSession createShoppingCartIdItemSessionXXX() {
+	Map<String, Object> sessionMap = new LinkedHashMap<String, Object>();
+
+	Order order = new Order();
+	List<OrderItem> orderItemList = new ArrayList<>();
+	order.setOrderItemList(orderItemList);	
+	
+	sessionMap.put("shoppingCart", order);
+	return createMockHttpSession(sessionMap);
+	}
+	
+
 	private static MockHttpSession createMockHttpSession(Map<String, Object> sessions) {
 		MockHttpSession mockHttpSession = new MockHttpSession();
 		for (Map.Entry<String, Object> session : sessions.entrySet()) {
 			mockHttpSession.setAttribute(session.getKey(), session.getValue());
 		}
 		return mockHttpSession;
-	}
-
-	
-	public static MockHttpSession createShoppingCartIdItemSessionXXX() {
-	Map<String, Object> sessionMap = new LinkedHashMap<String, Object>();
-
-	
-	Order shoppingCart = new Order();
-	return createMockHttpSession(sessionMap);
 	}
 	}
 
