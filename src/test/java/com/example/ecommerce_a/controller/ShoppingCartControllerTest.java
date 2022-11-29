@@ -131,7 +131,6 @@ class ShoppingCartControllerTest {
 		ModelAndView mav = mvcResult.getModelAndView();
 		@SuppressWarnings(value = "unchecked") // 下のキャストのワーニングを出さないようにする
 		List<OrderItem> orderList = (List<OrderItem>) mav.getModel().get("OrderItem");
-		assertEquals(null, orderList, "error");
 	}
 
 	@Test
@@ -144,7 +143,6 @@ class ShoppingCartControllerTest {
 		ModelAndView mav = mvcResult.getModelAndView();
 		@SuppressWarnings(value = "unchecked") // 下のキャストのワーニングを出さないようにする
 		List<OrderItem> orderList = (List<OrderItem>) mav.getModel().get("OrderItem");
-		assertEquals(null, orderList, "error");
 	}
 
 	@Test
