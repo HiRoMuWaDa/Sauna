@@ -109,8 +109,9 @@ class OrderControllerTest {
 //		List<Order> orderHistory = (List<Order>) mav.getModel().get("orderHistory");
 
 	}
-	 @DatabaseSetup("/user_point")
-	//@ExpectedDatabase(value = "/user_point", assertionMode = DatabaseAssertionMode.NON_STRICT)
+
+	@ExpectedDatabase(value = "/user_pointEx", assertionMode = DatabaseAssertionMode.NON_STRICT)
+	@DatabaseSetup("/user_point")
 	@Test
 	@DisplayName("注文確認画面")
 	void test3() throws Exception {
@@ -122,32 +123,40 @@ class OrderControllerTest {
 		).andExpect(view().name("order_confirm_pointUsable"))// 遷移先のHTML
 				.andReturn();
 	
-		//ポイント使用
-		 OrderConfirmForm pointform=new OrderConfirmForm();
-		 // OrderConfirmForm
-		 
-		 Integer usedPoint=pointform.getUsePointAsInteger();
-		 //ここでポイントを使う
-	 
-		 assertEquals(0,usedPoint,"一致しません");//CSVでポイントを入れる
-		
+        
+       //ポイント付与
+//     User user=new User();
+//     OrderConfirmForm form =new OrderConfirmForm();
+//     Order order=new Order();
+//		Integer usedPoint = form.getUsePointAsInteger();//現在ポイントの読み取
+//	
+//		Integer point = (int)((order.getTotalPrice()-usedPoint)*0.1);//ポイント付与
+//		User updatePoint(session);
+
+//		//ポイント使用
+//		 OrderConfirmForm pointform=new OrderConfirmForm();
+//		 // OrderConfirmForm
+//		 
+//		 Integer usedPoint=pointform.getUsePointAsInteger();
+//		 //ここでポイントを使う
+//	 
+		 //CSVでポイントを入れる
+//		
 		 //point→Userクラス　Listではない
 	}
 	
           //ポイントの付与
-//		MockHttpSession mockSession = (MockHttpSession) mvcResult.getRequest().getSession();
+//	MockHttpSession mockSession = (MockHttpSession) mvcResult.getRequest().getSession();
 //		
-//		}
-//	
+//	}
+////	
 //	@SuppressWarnings(value = "unchecked")
 //		List<Integer> usablePointList = (List<Integer>) mav.getModel().get("usablePointList");
-//
-//
 //	System.out.println("order = " + order);
 //	
-//
-//};
+
+};
 	
 	
 
-}
+

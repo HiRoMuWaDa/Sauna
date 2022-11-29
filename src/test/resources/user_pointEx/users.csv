@@ -1,0 +1,2 @@
+name,email,password,zipcode,address,telephone,point
+"""テストユーザ""","""coffeeshop.test@gmail.com""",abc,11111111,テスト住所,テスト電話番号,150

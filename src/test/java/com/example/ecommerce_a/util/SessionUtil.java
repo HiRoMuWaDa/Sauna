@@ -56,6 +56,7 @@ public class SessionUtil {
 		user.setAddress("テスト住所");
 		user.setZipcode("1111111");
 		user.setTelephone("テスト電話番号");
+		user.setPoint(100);
 		sessionMap.put("userId", user.getId());
 		sessionMap.put("user", user);
 
