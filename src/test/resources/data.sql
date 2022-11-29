@@ -1,5 +1,3 @@
-
-
 --items TABLE
 DROP TABLE IF EXISTS items;
 CREATE TABLE items(
@@ -13,6 +11,7 @@ CREATE TABLE items(
  deleted boolean default false not null
 );
 
+
 --options TABLE
 DROP TABLE IF EXISTS options cascade;
 CREATE TABLE options (
@@ -20,6 +19,7 @@ CREATE TABLE options (
   name text not null,
   price integer not null
 );
+
 
 --orders TABLE
 DROP TABLE IF EXISTS orders;
@@ -47,7 +47,6 @@ CREATE TABLE order_items(
  quantity integer not null,
  size char not null
 );
-
 
 
 --saunas TABLE
@@ -81,7 +80,6 @@ CREATE TABLE users (
  point Integer not null default 0
 );
 
-
 --order_options TABLE
 DROP TABLE IF EXISTS order_options cascade;
 CREATE TABLE order_options(
@@ -92,6 +90,18 @@ FOREIGN KEY (order_item_id) REFERENCES order_items(id)
 ON DELETE CASCADE 
 ON UPDATE CASCADE
 );
+
+--reviews TABLE
+DROP TABLE IF EXISTS reviews;
+CREATE TABLE reviews(
+ id serial primary key,
+ name text not null,
+ review text not null,
+ saunas_id integer not null,
+ deleted boolean default false not null,
+FOREIGN KEY (saunas_id) REFERENCES saunas (id) ON DELETE CASCADE
+);
+
 
 --items TABLE
 INSERT INTO items
@@ -113,12 +123,6 @@ insert into options values
 (1, 'ワッペン', 300),
 (2, '名前の刺繍', 300);
 
-
---reviews
-INSERT INTO reviews 
-(name, review, saunas_id) VALUES 
-('test', 'test', 1);
-
 --saunas TABLE
 INSERT INTO saunas (name, area, price, male_sauna_room_temp, male_water_bath, female_sauna_room_temp, female_water_bath, description, image_path, url)
 values ('戸越銀座温泉', '品川区',  750,  102, 17, 83, 16, '陽の湯と月の湯が日替わりで楽しめます。屋上で夜空を眺めながらととのうことができます。', 's1.jpg', 'http://togoshiginzaonsen.com/'),
@@ -137,13 +141,9 @@ insert into users
 (name, email, password, zipcode, address, telephone, point) values
 ('テストユーザ', 'test@test.co.jp', 'test','1111111', 'テスト住所', 'テスト電話番号', 0);
 
---reviews TABLE
-DROP TABLE IF EXISTS reviews;
-CREATE TABLE reviews(
- id serial primary key,
- name text not null,
- review text not null,
- saunas_id integer not null,
- deleted boolean default false not null,
-FOREIGN KEY (saunas_id) REFERENCES saunas (id) ON DELETE CASCADE
-);
+--reviews
+INSERT INTO reviews 
+(name, review, saunas_id) VALUES 
+('test', 'test', 1);
+
+
