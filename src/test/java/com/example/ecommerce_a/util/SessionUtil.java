@@ -13,118 +13,11 @@ import com.example.ecommerce_a.domain.Order;
 import com.example.ecommerce_a.domain.OrderItem;
 import com.example.ecommerce_a.domain.OrderOption;
 
-public class SessionUtil {
-	
-
-	public static MockHttpSession createShoppingCartIdItemSession() {
-		Map<String, Object> sessionMap = new LinkedHashMap<String, Object>();
-		
-		Order order = new Order();
-		List<OrderItem> orderItemList = new ArrayList<>();
-//		order.setTotalPrice(10000);
-		order.setOrderItemList(orderItemList);	
-		//orderにorderListをセット
-		
-//		商品情報
-		OrderItem orderItem = new OrderItem();
-		Item item = new Item();
-		item.setId(1);
-		item.setName("サウナタオル白");
-		item.setPriceS(1000);
-		orderItem.setItemId(1);
-		orderItem.setQuantity(10);
-		orderItem.setSize('S');
-		orderItem.setItem(item);
-		orderItemList.add(orderItem);
-		
-		List<OrderOption> orderOptionList = new ArrayList<>();
-		orderItem.setOrderOptionList(orderOptionList);
-		
-//		オプション情報
-		OrderOption orderOption = new OrderOption();
-		orderOption.setId(1);
-		orderOption.setOptionId(1);
-		orderOption.setOrderItemId(1);
-		orderOptionList.add(orderOption);
-
-		sessionMap.put("shoppingCart", order);
-		sessionMap.put("orderOption", order);
-		sessionMap.put("beforeLogin", "orderconfirm");
-		return createMockHttpSession(sessionMap);
-	}
-	
-	public static MockHttpSession createShoppingCartIdItemSession2() {
-		Map<String, Object> sessionMap = new LinkedHashMap<String, Object>();
-		
-		Order order = new Order();
-		List<OrderItem> orderItemList = new ArrayList<>();
-//		order.setTotalPrice(10000);
-		order.setOrderItemList(orderItemList);	
-		//orderにorderListをセット
-		
-//		商品情報
-		OrderItem orderItem = new OrderItem();
-		Item item = new Item();
-		item.setId(1);
-		item.setName("サウナタオル白");
-		item.setPriceS(1000);
-		orderItem.setItemId(1);
-		orderItem.setQuantity(10);
-		orderItem.setSize('S');
-		orderItem.setItem(item);
-		orderItemList.add(orderItem);
-		
-		List<OrderOption> orderOptionList = new ArrayList<>();
-		orderItem.setOrderOptionList(orderOptionList);
-		
-//		オプション情報
-		OrderOption orderOption = new OrderOption();
-		orderOption.setId(1);
-		orderOption.setOptionId(1);
-		orderOption.setOrderItemId(1);
-		orderOptionList.add(orderOption);
-
-		sessionMap.put("shoppingCart", order);
-		sessionMap.put("orderOption", order);
-		sessionMap.put("beforeLogin", "sauna");
-		return createMockHttpSession(sessionMap);
-	}
-
-
-	
-	public static MockHttpSession createShoppingCartIdItemSessionXXX() {
-	Map<String, Object> sessionMap = new LinkedHashMap<String, Object>();
-
-	Order order = new Order();
-	List<OrderItem> orderItemList = new ArrayList<>();
-	order.setOrderItemList(orderItemList);	
-	
-	sessionMap.put("shoppingCart", order);
-	return createMockHttpSession(sessionMap);
-	}
-	
-
-	private static MockHttpSession createMockHttpSession(Map<String, Object> sessions) {
-		MockHttpSession mockHttpSession = new MockHttpSession();
-		for (Map.Entry<String, Object> session : sessions.entrySet()) {
-			mockHttpSession.setAttribute(session.getKey(), session.getValue());
-		}
-		return mockHttpSession;
-	}
-	}
-
-
-
-=======
-package com.example.ecommerce_a.util;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-
 import com.example.ecommerce_a.domain.User;
 import org.springframework.mock.web.MockHttpSession;
-
 
 public class SessionUtil {
 
@@ -150,5 +43,90 @@ public class SessionUtil {
 		}
 		return mockHttpSession;
 	}
-  
+
+	public static MockHttpSession createShoppingCartIdItemSession() {
+		Map<String, Object> sessionMap = new LinkedHashMap<String, Object>();
+
+		Order order = new Order();
+		List<OrderItem> orderItemList = new ArrayList<>();
+//		order.setTotalPrice(10000);
+		order.setOrderItemList(orderItemList);
+		// orderにorderListをセット
+
+//		商品情報
+		OrderItem orderItem = new OrderItem();
+		Item item = new Item();
+		item.setId(1);
+		item.setName("サウナタオル白");
+		item.setPriceS(1000);
+		orderItem.setItemId(1);
+		orderItem.setQuantity(10);
+		orderItem.setSize('S');
+		orderItem.setItem(item);
+		orderItemList.add(orderItem);
+
+		List<OrderOption> orderOptionList = new ArrayList<>();
+		orderItem.setOrderOptionList(orderOptionList);
+
+//		オプション情報
+		OrderOption orderOption = new OrderOption();
+		orderOption.setId(1);
+		orderOption.setOptionId(1);
+		orderOption.setOrderItemId(1);
+		orderOptionList.add(orderOption);
+
+		sessionMap.put("shoppingCart", order);
+		sessionMap.put("orderOption", order);
+		sessionMap.put("beforeLogin", "orderconfirm");
+		return createMockHttpSession(sessionMap);
+	}
+
+	public static MockHttpSession createShoppingCartIdItemSession2() {
+		Map<String, Object> sessionMap = new LinkedHashMap<String, Object>();
+
+		Order order = new Order();
+		List<OrderItem> orderItemList = new ArrayList<>();
+//		order.setTotalPrice(10000);
+		order.setOrderItemList(orderItemList);
+		// orderにorderListをセット
+
+//		商品情報
+		OrderItem orderItem = new OrderItem();
+		Item item = new Item();
+		item.setId(1);
+		item.setName("サウナタオル白");
+		item.setPriceS(1000);
+		orderItem.setItemId(1);
+		orderItem.setQuantity(10);
+		orderItem.setSize('S');
+		orderItem.setItem(item);
+		orderItemList.add(orderItem);
+
+		List<OrderOption> orderOptionList = new ArrayList<>();
+		orderItem.setOrderOptionList(orderOptionList);
+
+//		オプション情報
+		OrderOption orderOption = new OrderOption();
+		orderOption.setId(1);
+		orderOption.setOptionId(1);
+		orderOption.setOrderItemId(1);
+		orderOptionList.add(orderOption);
+
+		sessionMap.put("shoppingCart", order);
+		sessionMap.put("orderOption", order);
+		sessionMap.put("beforeLogin", "sauna");
+		return createMockHttpSession(sessionMap);
+	}
+
+	public static MockHttpSession createShoppingCartIdItemSessionXXX() {
+		Map<String, Object> sessionMap = new LinkedHashMap<String, Object>();
+
+		Order order = new Order();
+		List<OrderItem> orderItemList = new ArrayList<>();
+		order.setOrderItemList(orderItemList);
+
+		sessionMap.put("shoppingCart", order);
+		return createMockHttpSession(sessionMap);
+	}
+
 }
