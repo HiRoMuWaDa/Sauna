@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/shop")
 public class SignUpApiController {
 
+//	String *** = mvcResult.getResponce().getContentAsString();
 	@ResponseBody
 	@RequestMapping(value = "/checkConPass", method = RequestMethod.POST)
 	public Map<String, String> checkConPass(String password, String confirmationPassword) {
@@ -28,5 +29,7 @@ public class SignUpApiController {
 		map.put("duplicateMessage", duplicateMessage);
 		return map;
 	}
+	
+//	APIテストとして調べる　Sysoutのチェックは不要
 
 }

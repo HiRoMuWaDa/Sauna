@@ -1,0 +1,2 @@
+id,name,email,password,zipcode,address,telephone
+1,テストパス,sample@gmail.com,$2a$10$1p4gt/kL2Qk/URrxcyZsjOaQVjVu7rmBgI3NpOp04aSssw9rK6KZ6,1111111,東京,03-1111-1112

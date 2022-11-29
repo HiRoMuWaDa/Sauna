@@ -57,7 +57,6 @@ public class LoginController {
 		session.setAttribute("user", user);
 		session.setAttribute("name", user.getName()+"さんこんにちは！");
 		System.out.println(user);
-		session.setAttribute("name", user.getName() + "さんこんにちは！");
 
 		// logIn前にセッションに入れていたカートの内容をinsert処理したい。
 		// ユーザーのセッションからカートの中身を持ってくる
