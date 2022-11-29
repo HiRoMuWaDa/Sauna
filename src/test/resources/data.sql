@@ -102,7 +102,6 @@ CREATE TABLE reviews(
 FOREIGN KEY (saunas_id) REFERENCES saunas (id) ON DELETE CASCADE
 );
 
-
 --items TABLE
 INSERT INTO items
 (name, description, price_s, price_m, price_l, image_path) values
@@ -145,5 +144,4 @@ insert into users
 INSERT INTO reviews 
 (name, review, saunas_id) VALUES 
 ('test', 'test', 1);
-
 
