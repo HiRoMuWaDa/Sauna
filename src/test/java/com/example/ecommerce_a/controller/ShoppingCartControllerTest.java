@@ -30,6 +30,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpSession;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -42,9 +44,15 @@ import com.example.ecommerce_a.domain.Order;
 import com.example.ecommerce_a.domain.OrderItem;
 import com.example.ecommerce_a.domain.User;
 import com.example.ecommerce_a.util.SessionUtil;
+import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestExecutionListeners({
+	DependencyInjectionTestExecutionListener.class, // このテストクラスでDIを使えるように指定
+	TransactionDbUnitTestExecutionListener.class // @DatabaseSetupや@ExpectedDatabaseなどを使えるように指定
+})
 
 class ShoppingCartControllerTest {
 
@@ -72,7 +80,7 @@ class ShoppingCartControllerTest {
 	@AfterEach
 	void tearDown() throws Exception {
 	}
-
+//カバレッジは通っているけどassertionは未実装が多い
 	@Test
 	@DisplayName("ログインしてない状態 shoppingCartが空")
 	void withoutLoginEmpty() throws Exception {
@@ -92,12 +100,12 @@ class ShoppingCartControllerTest {
 		List<OrderItem> dummyItemList = new ArrayList<>();
 		dummyItemList.add(new OrderItem());
 		dummy.setOrderItemList(dummyItemList);
-//		MvcResult mvcResult = mockMvc.perform(get("/shop/cart/view").sessionAttr("shoppingCart", dummy))
-//				.andExpect(status().isOk()).andExpect(view().name("cart_list")).andReturn();
-//		ModelAndView mav = mvcResult.getModelAndView();
-//		@SuppressWarnings(value = "unchecked") // 下のキャストのワーニングを出さないようにする
-//		List<OrderItem> orderList = (List<OrderItem>) mav.getModel().get("OrderItem");
-//		assertEquals(null, orderList, "error");
+		MvcResult mvcResult = mockMvc.perform(get("/shop/cart/view").sessionAttr("shoppingCart", dummy))
+				.andExpect(status().isOk()).andExpect(view().name("cart_list")).andReturn();
+		ModelAndView mav = mvcResult.getModelAndView();
+		@SuppressWarnings(value = "unchecked") // 下のキャストのワーニングを出さないようにする
+		List<OrderItem> orderList = (List<OrderItem>) mav.getModel().get("OrderItem");
+		assertEquals(null, orderList, "error");
 
 	}
 
@@ -111,8 +119,6 @@ class ShoppingCartControllerTest {
 		ModelAndView mav = mvcResult.getModelAndView();
 		@SuppressWarnings(value = "unchecked") // 下のキャストのワーニングを出さないようにする
 		List<OrderItem> orderList = (List<OrderItem>) mav.getModel().get("OrderItem");
-		
-		assertEquals(null,orderList.get(1),"error");
 	}
 
 	@Test
@@ -160,10 +166,11 @@ class ShoppingCartControllerTest {
 	}
 
 	@Test
+//    @DatabaseSetup("/test_Itemcomtroller/ordering")  //テスト実行前に初期データを投入
 	@DisplayName("insert ログインありオプションありカートなし")
 	void LoginOptionNothingInsert() throws Exception {
 		User dummyUser = new User();
-		dummyUser.setId(7);
+		dummyUser.setId(5);
 		mockMvc.perform(get("/shop/cart/insert").sessionAttr("user", dummyUser).param("size", "M")
 				.param("quantity", "1").param("itemId", "11").param("optionIdList", "1"));
 	}
