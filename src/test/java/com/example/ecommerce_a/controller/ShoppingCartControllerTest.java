@@ -84,8 +84,11 @@ class ShoppingCartControllerTest {
 	@Test
 	@DisplayName("ログインしてない状態 shoppingCartが空")
 	void withoutLoginEmpty() throws Exception {
-		MvcResult mvcResult=mockMvc.perform(get("/shop/cart/view")).andExpect(status().isOk()).andExpect(view().name("cart_list"))
-				.andExpect(model().attribute("nullMessage", "お客様のカートに商品はありません。")).andReturn();
+		MvcResult mvcResult=mockMvc.perform(get("/shop/cart/view"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("cart_list"))
+				.andExpect(model().attribute("nullMessage", "お客様のカートに商品はありません。"))
+				.andReturn();
 		ModelAndView mav = mvcResult.getModelAndView();
 		@SuppressWarnings(value = "unchecked") // 下のキャストのワーニングを出さないようにする
 		List<OrderItem>orderList=(List<OrderItem>)mav.getModel().get("OrderItem");
@@ -127,7 +130,9 @@ class ShoppingCartControllerTest {
 		User dummyUser = new User();
 		dummyUser.setId(4);
 		MvcResult mvcResult = mockMvc.perform(get("/shop/cart/view").sessionAttr("user", dummyUser))
-				.andExpect(status().isOk()).andExpect(view().name("cart_list")).andReturn();
+				.andExpect(status().isOk())
+				.andExpect(view().name("cart_list"))
+				.andReturn();
 		ModelAndView mav = mvcResult.getModelAndView();
 		@SuppressWarnings(value = "unchecked") // 下のキャストのワーニングを出さないようにする
 		List<OrderItem> orderList = (List<OrderItem>) mav.getModel().get("OrderItem");
