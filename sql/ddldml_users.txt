@@ -9,7 +9,7 @@ create table users (
  , zipcode varchar(8) not null
  , address varchar(200) not null
  , telephone varchar(15) not null
- , point Integer not null default 0
+ , point Integer not null default 100
 ) ;
 
 

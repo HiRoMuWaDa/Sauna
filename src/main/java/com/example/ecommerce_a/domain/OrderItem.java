@@ -7,7 +7,7 @@ import java.util.List;
  * toppingをoptionに設定
  * 小計金額を計算する
  * @author manami
- *
+ *一つの注文内容
  */
 public class OrderItem {
 	// id
