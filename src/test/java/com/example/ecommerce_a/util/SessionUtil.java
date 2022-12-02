@@ -67,17 +67,7 @@ public class SessionUtil {
 		orderItem.setSize('S');
 		orderItem.setItem(item);
 		orderItemList.add(orderItem);
-		OrderItem orderItem1 = new OrderItem();
-		Item item = new Item();
-		item.setId(1);
-		item.setName("サウナタオル白");
-		item.setPriceS(1000);
-		orderItem.setItemId(1);
-		orderItem.setQuantity(10);
-		orderItem.setSize('S');
-		orderItem.setItem(item);
-		orderItemList.add(orderItem);
-
+		
 
 		List<OrderOption> orderOptionList = new ArrayList<>();
 		orderItem.setOrderOptionList(orderOptionList);
@@ -173,7 +163,7 @@ public class SessionUtil {
 		sessionMap.put("userId", user.getId());
 		sessionMap.put("user", user);
 
-	
+	//shoppingCartデータ
 		List<OrderItem> orderItemList = new ArrayList<>();
 		Order order = new Order();
 //		order.setTotalPrice(10000);

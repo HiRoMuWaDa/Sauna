@@ -207,7 +207,10 @@ class OrderControllerTest {
 						List<OrderItem> orderItemList = order.getOrderItemList();
 
 						OrderItem orderItem = orderItemList.get(0);
-						assertEquals(null, orderItem.getItemId(), "idが一致していない");
+						OrderItem orderItemNull = orderItemList.get(0);
+						
+						assertEquals(1, orderItem.getItemId(), "idが一致していない");
+						
 			//エラー内容→charの文字数を超える
 			//DB,VSコードの文字化け確認
 					
