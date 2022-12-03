@@ -108,7 +108,7 @@ class OrderControllerTest {
 	
 
 	@DatabaseSetup("/order_confirm")
-	@DisplayName("注文確認画面(ポイント使用)")
+	@DisplayName("注文確認画面(ポイント使用")
 	@Test
 	void UsePoint() throws Exception {
 		MockHttpSession session = SessionUtil.createShoppingCartIdAdItemSession();// ログイン処理
