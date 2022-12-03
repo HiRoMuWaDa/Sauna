@@ -105,21 +105,7 @@ class OrderControllerTest {
 
 	}
 
-	@DatabaseSetup("/order_confirm")
-	@DisplayName("注文確認画面(ポイントリスト)")
-	@Test
-	void PointUsebler() throws Exception {
-
-		MockHttpSession session = SessionUtil.createShoppingCartIdAdItemSession();// ログイン処理
-		MvcResult mvcResult = mockMvc.perform(get("/shop/order_confirm_pointUsable").session(session))
-				.andExpect(view().name("redirect:/shop/login"))// 遷移先のHTML
-				.andReturn();// 元のURL
-
-		// usablePointListの確認（リクエストｽｺｰﾌﾟからの取り出し）
-		ModelAndView mav = mvcResult.getModelAndView();// modelの使用
-		List<Integer> usablePointlist = (List<Integer>) mav.getModel().get("orderconfirm");
-
-	}
+	
 
 	@DatabaseSetup("/order_confirm")
 	@DisplayName("注文確認画面(ポイント使用)")
