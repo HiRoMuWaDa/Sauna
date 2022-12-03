@@ -1,5 +1,6 @@
 package com.example.ecommerce_a.util;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -8,18 +9,11 @@ import java.util.Map;
 import org.springframework.mock.web.MockHttpSession;
 
 import com.example.ecommerce_a.domain.Item;
-import com.example.ecommerce_a.domain.Option;
 import com.example.ecommerce_a.domain.Order;
 import com.example.ecommerce_a.domain.OrderItem;
 import com.example.ecommerce_a.domain.OrderOption;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import com.example.ecommerce_a.domain.User;
 import com.example.ecommerce_a.form.OrderConfirmForm;
-
-import org.springframework.mock.web.MockHttpSession;
 
 public class SessionUtil {
 
@@ -67,7 +61,6 @@ public class SessionUtil {
 		orderItem.setSize('S');
 		orderItem.setItem(item);
 		orderItemList.add(orderItem);
-		
 
 		List<OrderOption> orderOptionList = new ArrayList<>();
 		orderItem.setOrderOptionList(orderOptionList);
@@ -84,6 +77,7 @@ public class SessionUtil {
 		sessionMap.put("beforeLogin", "orderconfirm");
 		return createMockHttpSession(sessionMap);
 	}
+	
 
 	public static MockHttpSession createShoppingCartIdItemSession2() {
 		Map<String, Object> sessionMap = new LinkedHashMap<String, Object>();
@@ -132,42 +126,57 @@ public class SessionUtil {
 		sessionMap.put("shoppingCart", order);
 		return createMockHttpSession(sessionMap);
 	}
-	public static MockHttpSession createShoppingCartIdAdItemSession() {
+	
+	//OrderControllerで使用
+	
+	
+	
+	
+	public static MockHttpSession createShoppingCartIdAdItemSession() throws ParseException {
+	
+
 		Map<String, Object> sessionMap = new LinkedHashMap<String, Object>();
+
 		User user = new User();
 		OrderItem orderItem = new OrderItem();
 		
+//		オプション情報
 		List<OrderOption> orderOptionList = new ArrayList<>();
 		orderItem.setOrderOptionList(orderOptionList);
-
-//		オプション情報
 		OrderOption orderOption = new OrderOption();
 		orderOption.setId(1);
 		orderOption.setOptionId(1);
 		orderOption.setOrderItemId(1);
-		orderOptionList.add(orderOption);
+
+
+
+		//後で変換するので変数に入れる
+		Integer i = Integer.valueOf(150);
 		
-//		OrderConfirmForm form =new OrderConfirmForm();
-//		form.setUsePoint("50");
+		// ユーザー情報
 		
-		
-	
 		user.setId(1);
 		user.setName("テストユーザ");
 		user.setEmail("coffeeshop.test@gmail.com");
 		user.setPassword("abc");
 		user.setAddress("テスト住所");
-		user.setZipcode("1111111");
-		user.setTelephone("テスト電話番号");
-		//user.setPoint(150);
+		user.setZipcode("111-1111");
+		user.setTelephone("000-0000-0000");
+		 user.setPoint(i);
 		sessionMap.put("userId", user.getId());
 		sessionMap.put("user", user);
+		
 
-	//shoppingCartデータ
+		// shoppingCartデータ
 		List<OrderItem> orderItemList = new ArrayList<>();
+		
+	
+
 		Order order = new Order();
-//		order.setTotalPrice(10000);
-		order.setOrderItemList(orderItemList);	
+		
+	
+
+		order.setOrderItemList(orderItemList);
 		Item item = new Item();
 		item.setId(1);
 		item.setName("サウナタオル白");
@@ -176,29 +185,60 @@ public class SessionUtil {
 		orderItem.setQuantity(5);
 		orderItem.setSize('M');
 		orderItem.setItem(item);
-		orderItem.setOrderOptionList((List<OrderOption>) orderOption);
+		orderItem.setOrderOptionList(orderOptionList);
 		orderItemList.add(orderItem);
-		order.setDeliveryTime(null);		
-		order.setDestinationAddress("テスト住所");
-		order.setDestinationEmail("coffeeshop.test@gmail.com");
-		order.setDestinationName("テスト太郎");
-		order.setDestinationTel("テスト電話番号");
-		order.setDestinationZipcode("1111111");
-		order.setId(1);
-		order.setOrderDate(null);
-		order.setPaymentMethod(1);
-		order.setStatus(1);
-		order.setUserId(1);
-		order.setUser(user);
-		
-		
-		
-		sessionMap.put("shoppingCart", order);
-				
-		return createMockHttpSession(sessionMap);
-		
-	}
-	
-	
 
-}
+		sessionMap.put("shoppingCart", order);
+		sessionMap.put("orderItemList", orderItemList);
+		return createMockHttpSession(sessionMap);}
+		
+//
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+//		SimpleDateFormat sdfTime = new SimpleDateFormat("HH/MM/SS");//時間
+//		
+		//タイムスタンプの変換
+//		String str = "2022/12/10";
+//		Date date = sdf.parse(str);
+//		String strTime = "14/00/00";
+//		Date dateTime = sdf.parse(strTime);
+//		 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+//		Timestamp timestamp3 = new Timestamp(dateTime.getTime());
+//		Timestamp timestamp2 = new Timestamp(dateTime.getTime());
+//
+	
+	   
+		
+
+
+	public static MockHttpSession createOrder() throws ParseException {
+		Map<String, Object> sessionMap = new LinkedHashMap<String, Object>();
+		User user = new User();
+		Integer i = Integer.valueOf(150);
+		OrderConfirmForm form=new OrderConfirmForm();
+	  String Point = i.toString();
+		form.setDestinationAddress(user.getAddress());
+			form.setDestinationEmail(user.getEmail());
+			form.setDestinationName(user.getName());
+			form.setDestinationTel(user.getTelephone());
+			form.setDestinationZipcode(user.getZipcode());
+			form.setDeliveryTime("2022/12/10");
+			form.setPaymentMethod(1);
+			form.setUsePoint(Point);
+			sessionMap.put("form", form);
+		
+
+	
+			return createMockHttpSession(sessionMap);}}
+			
+	
+		
+//		private static MockHttpSession createMockHttpSession1(Map<String, Object> sessions) {
+//			MockHttpSession mockHttpSession = new MockHttpSession();
+//			for (Map.Entry<String, Object> session : sessions.entrySet()) {
+//				mockHttpSession.setAttribute(session.getKey(), session.getValue());
+//				return mockHttpSession;
+//			}}
+		
+
+
+

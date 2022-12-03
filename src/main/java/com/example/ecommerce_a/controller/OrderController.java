@@ -58,6 +58,8 @@ public class OrderController {
 			form.setDestinationZipcode(user.getZipcode());
 			form.setDestinationAddress(user.getAddress());
 			form.setDestinationTel(user.getTelephone());	
+			
+			
 		}
 		
 		return form;
@@ -126,6 +128,7 @@ public class OrderController {
 		
 		if (result.hasErrors()) {
 			return orderConfirm(model);
+			
 		}
 		
 		User user = (User) session.getAttribute("user"); 
@@ -157,6 +160,7 @@ public class OrderController {
 			model.addAttribute("deliveryTimeError","現在より3時間後以降の日時をご入力ください");
 			return orderConfirm(model);
 		}
+		//
 		
 		
 		System.out.println("注文日時:"+localDateTime);
@@ -175,6 +179,7 @@ public class OrderController {
 		order = orderService.completeOrder(order);
 
 		model.addAttribute("order", order);
+		//オーダー内容をsessionで持ってくる→クレカで支払い設定→いける
 		
 		// ここからポイント使用システム
 		
