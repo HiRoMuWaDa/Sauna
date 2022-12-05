@@ -64,8 +64,8 @@ class OrderControllerTest {
 		mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
 	}
 
-	@ExpectedDatabase(value = "/user_pointEx", assertionMode = DatabaseAssertionMode.NON_STRICT)
 	@DatabaseSetup("/user_point")
+	@ExpectedDatabase(value = "/user_pointEx", assertionMode = DatabaseAssertionMode.NON_STRICT)
 	@Test
 	@DisplayName("注文確認画面(ItemList)")
 	void test3() throws Exception {
@@ -105,9 +105,8 @@ class OrderControllerTest {
 
 	}
 
-	
-
-	@DatabaseSetup("/order_confirm")
+	@DatabaseSetup("/user_point")
+	@ExpectedDatabase(value = "/user_pointEx", assertionMode = DatabaseAssertionMode.NON_STRICT)
 	@DisplayName("注文確認画面(ポイント使用")
 	@Test
 	void UsePoint() throws Exception {
@@ -142,23 +141,33 @@ class OrderControllerTest {
 	// ↑リストをセッションで作成してそこの値を取り出す
 
 	@Test
-	@DatabaseSetup("/order_confirm")
+   @DatabaseSetup("/order_finished")
+	@ExpectedDatabase(value = "/order_finishedEx", assertionMode = DatabaseAssertionMode.NON_STRICT)
 	@DisplayName("オーダー内容")
 	void testOrderCompletion01() throws Exception {
-		MockHttpSession session = SessionUtil.createShoppingCartIdAdItemSession();
+		MockHttpSession session = SessionUtil.createOrder();
+	
 		MvcResult mvcResult = mockMvc.perform(get("/shop/order-confirmed")// パラメータの処理
-				.param("deliveryDate", "2022-12-10").param("deliveryTime", "14:00").session(session))
-				.andExpect(view().name("redirect:/shop/order-finished"))// 遷移先のHTML
+	
+				.session(session).param("destinationName", "テストユーザ")
+				.param("destinationEmail", "coffeeshop.test@gmail.com").param("destinationAddress", "テスト住所")
+				.param("destinationTel", "000-0000-0000").param("destinationZipcode", "111-1111")
+				.param("paymentMethod", "1").param("usePoint", "0").param("deliveryDate", "2022-12-20")
+				.param("deliveryTime", "14:00")).andExpect(view().name("redirect:/shop/order-finished")
+						)// 遷移先のHTML
 				.andReturn();
+
 		ModelAndView mav = mvcResult.getModelAndView();// modelの使用
-		mav.getModel().get("order");// ?
+            Order order =(Order) mav.getModel().get("order");
+		
+			assertEquals(1, order.getId(), "idが一致していない");
+		
+
+	
 
 	}
-//	.param("usePoint", "0")
-//	.param("paymentMethod", "1")
 	@DisplayName("注文履歴確認画面(件数あり)")
 
-	// @ExpectedDatabase()→処理が終わった時のテーブルの状態をCSVに（期待値をCSVに記載））DatabaseAssertionMode→書かれているCSVのみ判定
 	@Test
 
 	@DatabaseSetup("/test_order")
@@ -180,6 +189,7 @@ class OrderControllerTest {
 			OrderItem orderItem = orderItemList.get(0);
 
 			assertEquals(1, orderItem.getItemId(), "idが一致していない");
+
 		}
 		// エラー内容→charの文字数を超える
 		// DB,VSコードの文字化け確認
@@ -188,9 +198,6 @@ class OrderControllerTest {
 
 	@DisplayName("注文履歴確認画面(件数無し)")
 
-	// @ExpectedDatabase()→処理が終わった時のテーブルの状態をCSVに（期待値をCSVに記載））DatabaseAssertionMode→書かれているCSVのみ判定
-
-//					    @ExpectedDatabase(value = "/shop/show_order_history", assertionMode = DatabaseAssertionMode.NON_STRICT)
 	@Test
 
 //				    @DatabaseSetup("/null_order")
