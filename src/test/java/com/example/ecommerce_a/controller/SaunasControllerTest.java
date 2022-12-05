@@ -6,7 +6,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterAll;
@@ -26,9 +25,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.example.ecommerce_a.domain.Review;
 import com.example.ecommerce_a.domain.Sauna;
-import com.example.ecommerce_a.form.ReviewForm;
 import com.example.ecommerce_a.util.CsvDataSetLoader;
 import com.example.ecommerce_a.util.SessionUtil;
 import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener;
@@ -455,6 +452,7 @@ class SaunasControllerTest {
 	
 	@Test
 	@DisplayName("サウナ施設詳細 (id=2)")
+	@DatabaseSetup(value = "/SaunasControllerTestDB/showDetail_init")
 	void showDetail() throws Exception{
 		//①コントローラ呼び出し
 		MvcResult mvcResult = mockMvc.perform(get("/research/sauna-showDetail")
@@ -466,11 +464,12 @@ class SaunasControllerTest {
 		ModelAndView mav = mvcResult.getModelAndView();
 		//@SuppressWarnings(value="unchecked")
 		Sauna saunaDetail = (Sauna) mav.getModel().get("sauna");
-		
+		String reviewZeroMessage = (String) mav.getModel().get("reviewZeroMessage");
 		//③テスト
 		//温泉名をチェック
 		assertAll(
-				() -> assertEquals("妙法湯", saunaDetail.getName(),"Detail_Error")
+				() -> assertEquals("妙法湯", saunaDetail.getName(),"saunaDetail_Error"),
+				() -> assertEquals("まだ口コミがありません。", reviewZeroMessage,"reviewZeroMessage_Error")
 			);
 	}
 	
@@ -541,5 +540,10 @@ class SaunasControllerTest {
 		MockHttpSession userIdSession = SessionUtil.createUserIdAndUserSession();
 		MvcResult mvcResult = mockMvc.perform(get("/research/logout").session(userIdSession)).andExpect(view().name("redirect:/research")).andReturn();
 		
+		MockHttpSession session = (MockHttpSession) mvcResult.getRequest().getSession();
+		
+		assertAll(
+				() -> assertEquals(null, session.getAttribute("user"),"sessionOutCheck_Error")
+			);
     }
 }
