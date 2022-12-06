@@ -1,0 +1,2 @@
+id,user_id,status,total_price,order_date,destination_name,destination_email,destination_zipcode,destination_address,destination_tel,delivery_time,payment_method
+1,1,1,5500,2022-12-10 10:00:000,null,null,null,null,null,2022-12-10 14:00:00,null

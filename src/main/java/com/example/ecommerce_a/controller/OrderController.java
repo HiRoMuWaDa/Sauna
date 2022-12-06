@@ -58,6 +58,8 @@ public class OrderController {
 			form.setDestinationZipcode(user.getZipcode());
 			form.setDestinationAddress(user.getAddress());
 			form.setDestinationTel(user.getTelephone());	
+			
+			
 		}
 		
 		return form;
@@ -68,6 +70,49 @@ public class OrderController {
 	public String orderConfirm() {
 		return "order_confirm_pointUsable";
 	}
+
+	@RequestMapping("/orderConfirm")
+		public String orderConfirm(Model model) {
+			System.out.println(session.getAttribute("user"));
+			
+	
+			if (session.getAttribute("user") != null) {
+				// Order order = orderService.findById();
+				Order order = new Order();
+				order.setId(((User)session.getAttribute("user")).getId());
+				order.setOrderItemList(orderItemService.orderConfirm(order.getId()));
+				List<OrderItem> orderItemList = order.getOrderItemList();
+				//******
+				session.setAttribute("orderItemList", orderItemList);
+	
+				//ここからポイント使用機能
+				User user = (User)session.getAttribute("user");
+				Order shoppingCart = (Order) session.getAttribute("shoppingCart");
+				
+				int totalPrice = shoppingCart.getCalcTotalPrice();
+				System.out.println("totalprice"+totalPrice);
+				int NowPoint = userService.getPoint(user.getId());
+				List<Integer> usablePointList = new ArrayList<>();
+	
+				for(int i =0 ; i<=NowPoint && i <=totalPrice; i += 100){
+					usablePointList.add(i);
+				}
+	
+				System.out.println(usablePointList);
+				//******
+				model.addAttribute("usablePointList", usablePointList);
+				
+				
+				return "order_confirm_pointUsable";
+				
+				//ここまでポイント使用機能
+				
+	//			return "order_confirm_pointUsable";
+			} else {
+				session.setAttribute("beforeLogin", "orderconfirm");
+				return "redirect:/shop/login";
+			}
+		}
 
 	/**
 	 * 注文確認画面より注文情報を受け取り注文完了する 登録情報に不備があった場合、再度注文確認画面を表示させる
@@ -83,6 +128,7 @@ public class OrderController {
 		
 		if (result.hasErrors()) {
 			return orderConfirm(model);
+			
 		}
 		
 		User user = (User) session.getAttribute("user"); 
@@ -105,14 +151,16 @@ public class OrderController {
 		
 		LocalDateTime localDateTime = LocalDateTime.of(1900 + formDate.getYear(), 1 + formDate.getMonth(), formDate.getDate(), formTime.getHour(), formTime.getMinute());
 		
-		
+		//
 		
 		// 取得した時間が、現時点から3時間後以前の場合はエラー
+		//deliveryTimeError "order_confirm_pointUsable" 231
 		LocalDateTime threeHourAfterNow = LocalDateTime.now().plusHours(3);
 		if (localDateTime.isBefore(threeHourAfterNow)) {
 			model.addAttribute("deliveryTimeError","現在より3時間後以降の日時をご入力ください");
 			return orderConfirm(model);
 		}
+		//
 		
 		
 		System.out.println("注文日時:"+localDateTime);
@@ -131,6 +179,7 @@ public class OrderController {
 		order = orderService.completeOrder(order);
 
 		model.addAttribute("order", order);
+		//オーダー内容をsessionで持ってくる→クレカで支払い設定→いける
 		
 		// ここからポイント使用システム
 		
@@ -153,6 +202,7 @@ public class OrderController {
 		
 		return "redirect:/shop/order-finished";
 	}
+	
 
 	/**
 	 * @return 注文完了画面を表示させる
@@ -162,47 +212,6 @@ public class OrderController {
 		return "order_finished";
 	}
 
-	@RequestMapping("/orderConfirm")
-	public String orderConfirm(Model model) {
-		System.out.println(session.getAttribute("user"));
-		
-
-		if (session.getAttribute("user") != null) {
-			// Order order = orderService.findById();
-			Order order = new Order();
-			order.setId(((User)session.getAttribute("user")).getId());
-			order.setOrderItemList(orderItemService.orderConfirm(order.getId()));
-			List<OrderItem> orderItemList = order.getOrderItemList();
-			session.setAttribute("orderItemList", orderItemList);
-
-			//ここからポイント使用機能
-			User user = (User)session.getAttribute("user");
-			Order shoppingCart = (Order) session.getAttribute("shoppingCart");
-			
-			int totalPrice = shoppingCart.getCalcTotalPrice();
-			System.out.println("totalprice"+totalPrice);
-			int NowPoint = userService.getPoint(user.getId());
-			List<Integer> usablePointList = new ArrayList<>();
-
-			for(int i =0 ; i<=NowPoint && i <=totalPrice; i += 100){
-				usablePointList.add(i);
-			}
-
-			System.out.println(usablePointList);
-			model.addAttribute("usablePointList", usablePointList);
-			
-			
-			return "order_confirm_pointUsable";
-			
-			//ここまでポイント使用機能
-			
-//			return "order_confirm_pointUsable";
-		} else {
-			session.setAttribute("beforeLogin", "orderconfirm");
-			return "redirect:/shop/login";
-		}
-	}
-	
 	@RequestMapping("/show_order_history")
 	public String showOrderHistory(Model model) {
 		//　ログインしていないときには使えないのでnullチェックなし。

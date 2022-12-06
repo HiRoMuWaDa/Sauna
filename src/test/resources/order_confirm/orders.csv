@@ -1,0 +1,2 @@
+id,user_id,status,total_price,destination_name,destination_email,destination_zipcode,destination_address,destination_tel,delivery_time,payment_method
+1,1,1,5500,coffeeshop.test@gmail.com,,111-1111,ƒeƒXƒgZŠ,0000-0000-0000,2022/12/20 14:00,1
