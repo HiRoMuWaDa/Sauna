@@ -32,7 +32,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.example.ecommerce_a.domain.Item;
 import com.example.ecommerce_a.domain.Order;
 import com.example.ecommerce_a.domain.OrderItem;
+
 import com.example.ecommerce_a.domain.User;
+
 import com.example.ecommerce_a.form.OrderConfirmForm;
 import com.example.ecommerce_a.util.CsvDataSetLoader;
 import com.example.ecommerce_a.util.SessionUtil;
@@ -65,8 +67,10 @@ class OrderControllerTest {
 		mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
 	}
 
+
 	@DatabaseSetup("/user_point")
 	@ExpectedDatabase(value = "/user_pointEx", assertionMode = DatabaseAssertionMode.NON_STRICT)
+
 	@Test
 	@DisplayName("注文確認画面(ItemList)")
 	void test3() throws Exception {
@@ -89,6 +93,8 @@ class OrderControllerTest {
 	}
 //		assertEquals(3, orderItemList.size(), "注文確認画面商品件数エラー");
 
+
+
 	@DatabaseSetup("/order_confirm")
 	@DisplayName("注文確認画面(ポイントリスト)")
 	@Test
@@ -104,6 +110,7 @@ class OrderControllerTest {
 		List<Integer> usablePointlist = (List<Integer>) mav.getModel().get("usablePointList");
 
 	}
+
 	@Test
 	   
 		@ExpectedDatabase(value = "/use_pointEx", assertionMode = DatabaseAssertionMode.NON_STRICT)
@@ -183,6 +190,7 @@ class OrderControllerTest {
 	}
 	@DisplayName("注文履歴確認画面(件数あり)")
 	@Test
+
 	@DatabaseSetup("/test_order")
 
 	void OrderHisttoryTest() throws Exception {
@@ -202,10 +210,12 @@ class OrderControllerTest {
 			OrderItem orderItem = orderItemList.get(0);
 
 			assertEquals(1, orderItem.getItemId(), "idが一致していない");
+
 			}
 }
 	@DisplayName("注文履歴確認画面(件数無し)")
 	@Test
+
 	void OrderHisttoryTest_A() throws Exception {
 		MockHttpSession session = SessionUtil.createUserIdAndUserSession();
 		MvcResult mvcResult = mockMvc.perform(get("/shop/show_order_history")// 元のURL
@@ -227,6 +237,7 @@ class OrderControllerTest {
 	}
 
 	// orderItemにはorderList<OrderItem> orderItemListがあるため
+
 	// orderHistoryから取り出して全要素をorder型→orderitemに格納
 	@DisplayName("注文確定画面")
 	@Test
@@ -240,4 +251,6 @@ class OrderControllerTest {
 				.andReturn();
 	}
 
+
 };
+

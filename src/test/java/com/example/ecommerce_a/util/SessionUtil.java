@@ -44,7 +44,7 @@ public class SessionUtil {
 		return mockHttpSession;
 	}
 
-	public static MockHttpSession createShoppingCartIdItemSession() {
+	public static MockHttpSession createShoppingCartIdItemSessionToOC() {
 		Map<String, Object> sessionMap = new LinkedHashMap<String, Object>();
 
 		Order order = new Order();
@@ -53,7 +53,8 @@ public class SessionUtil {
 		order.setOrderItemList(orderItemList);
 		// orderにorderListをセット
 
-//		商品情報
+//		ログイン前カート内商品
+		
 		OrderItem orderItem = new OrderItem();
 		Item item = new Item();
 		item.setId(1);
@@ -82,7 +83,7 @@ public class SessionUtil {
 	}
 	
 
-	public static MockHttpSession createShoppingCartIdItemSession2() {
+	public static MockHttpSession createShoppingCartIdItemSessionToSauna() {
 		Map<String, Object> sessionMap = new LinkedHashMap<String, Object>();
 
 		Order order = new Order();
@@ -119,7 +120,7 @@ public class SessionUtil {
 		return createMockHttpSession(sessionMap);
 	}
 
-	public static MockHttpSession createShoppingCartIdItemSessionXXX() {
+	public static MockHttpSession createShoppingCartIdItemSessionNew() {
 		Map<String, Object> sessionMap = new LinkedHashMap<String, Object>();
 
 		Order order = new Order();

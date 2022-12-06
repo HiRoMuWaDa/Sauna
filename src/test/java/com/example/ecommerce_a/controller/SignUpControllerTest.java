@@ -60,21 +60,21 @@ import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 	
 		@Test
 		@DisplayName("会員登録画面表示（正常）")
-		void  test1()throws Exception{
+		void  testSignUp()throws Exception{
 			 mockMvc.perform(get("/shop/to-signup"))
 	         .andExpect(view().name("sign-up"));
 		}
 		
 		@Test
 		@DisplayName("会員登録画面表示（エラー時）")
-		void  test2()throws Exception{
+		void  testSignUpError()throws Exception{
 			 mockMvc.perform(get("/shop/signup"))
 	         .andExpect(view().name("sign-up"));
 		}
 		
 		@Test
 		@DisplayName("会員登録画面表示（確認用パスワード不一致）")
-		void  test3()throws Exception{
+		void  testSignUpPasswordError()throws Exception{
 			MvcResult mvcResult = mockMvc.perform(get("/shop/signup")
 			 .param("name", "やまだはなこ")
 			 .param("email","yamada@sample.com")
@@ -94,7 +94,7 @@ import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 		@Test
 		@DatabaseSetup("/userPass")
 		@DisplayName("会員登録画面表示（メールアドレス重複）")
-		void  test4()throws Exception{
+		void  testSignUpMailError()throws Exception{
 			MvcResult mvcResult = mockMvc.perform(get("/shop/signup")
 			 .param("name", "やまだはなこ")
 			 .param("email","sample@gmail.com")
@@ -114,7 +114,7 @@ import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 		@Test
 		@DatabaseSetup("/userPass")
 		@DisplayName("会員登録画面表示（成功）")
-		void  test5()throws Exception{
+		void  testSignUpSuccess()throws Exception{
 			MvcResult mvcResult = mockMvc.perform(get("/shop/signup")
 			 .param("name", "やまだはなこ")
 			 .param("email","yamada@sample.com")
